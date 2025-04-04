@@ -1,9 +1,10 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:stundenplan/parsing/parse_timetable.dart';
 import 'package:stundenplan/shared_state.dart';
-
 
 class CourseAutoCompleteAddInput extends StatefulWidget {
   const CourseAutoCompleteAddInput(
@@ -17,13 +18,16 @@ class CourseAutoCompleteAddInput extends StatefulWidget {
 }
 
 class _CourseAutoCompleteAddInput extends State<CourseAutoCompleteAddInput> {
-
   List<String> options = [];
-  TextEditingController courseAddNameTextEditingController = TextEditingController();
+  TextEditingController courseAddNameTextEditingController =
+      TextEditingController();
 
   Future<void> setOptions() async {
     final client = Client();
-    options = await getAllAvailableSubjects(client, widget.sharedState.profileManager.schoolClassFullName, widget.sharedState.profileManager.schoolGrade!);
+    options = await getAllAvailableSubjects(
+        client,
+        widget.sharedState.profileManager.schoolClassFullName,
+        widget.sharedState.profileManager.schoolGrade!);
   }
 
   @override
@@ -41,11 +45,10 @@ class _CourseAutoCompleteAddInput extends State<CourseAutoCompleteAddInput> {
         children: [
           Expanded(
             child: Container(
-              height: 60+12,
+              height: 60 + 12,
               decoration: BoxDecoration(
                   color: widget.sharedState.theme.textColor.withAlpha(200),
-                  borderRadius: BorderRadius.circular(15)
-              ),
+                  borderRadius: BorderRadius.circular(15)),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: Autocomplete<String>(
@@ -57,34 +60,38 @@ class _CourseAutoCompleteAddInput extends State<CourseAutoCompleteAddInput> {
                       return option.contains(textEditingValue.text);
                     });
                   },
-                  fieldViewBuilder: (
-                      BuildContext context,
+                  fieldViewBuilder: (BuildContext context,
                       TextEditingController fieldTextEditingController,
                       FocusNode fieldFocusNode,
-                      VoidCallback onFieldSubmitted
-                      ) {
-                    courseAddNameTextEditingController = fieldTextEditingController;
+                      VoidCallback onFieldSubmitted) {
+                    courseAddNameTextEditingController =
+                        fieldTextEditingController;
                     return TextField(
                       controller: fieldTextEditingController,
                       focusNode: fieldFocusNode,
-                      decoration: InputDecoration(border: InputBorder.none, hintText: "En"),
-                      style: GoogleFonts.poppins(color: widget.sharedState.theme.invertedTextColor, fontSize: 30.0),
+                      decoration: const InputDecoration(
+                          border: InputBorder.none, hintText: "En"),
+                      style: GoogleFonts.poppins(
+                          color: widget.sharedState.theme.invertedTextColor,
+                          fontSize: 30.0),
                     );
                   },
-                  optionsViewBuilder: (
-                      BuildContext context,
+                  optionsViewBuilder: (BuildContext context,
                       AutocompleteOnSelected<String> onSelected,
-                      Iterable<String> options
-                      ) {
+                      Iterable<String> options) {
                     return Align(
                       alignment: Alignment.topLeft,
                       child: Material(
                         child: Container(
                           width: 150,
-                          color : Color.fromRGBO(widget.sharedState.theme.textColor.red-20, widget.sharedState.theme.textColor.green-20, widget.sharedState.theme.textColor.blue-20, 1.0),
+                          color: Color.fromRGBO(
+                              widget.sharedState.theme.textColor.red - 20,
+                              widget.sharedState.theme.textColor.green - 20,
+                              widget.sharedState.theme.textColor.blue - 20,
+                              1.0),
                           child: ListView.builder(
                             shrinkWrap: true,
-                            padding: const EdgeInsets.all(0.0),
+                            padding: EdgeInsets.zero,
                             itemCount: options.length,
                             itemBuilder: (BuildContext context, int index) {
                               final String option = options.elementAt(index);
@@ -93,7 +100,13 @@ class _CourseAutoCompleteAddInput extends State<CourseAutoCompleteAddInput> {
                                   onSelected(option);
                                 },
                                 child: ListTile(
-                                  title: Text(option, style: GoogleFonts.poppins(color: widget.sharedState.theme.invertedTextColor, fontSize: 20.0),),
+                                  title: Text(
+                                    option,
+                                    style: GoogleFonts.poppins(
+                                        color: widget.sharedState.theme
+                                            .invertedTextColor,
+                                        fontSize: 20.0),
+                                  ),
                                 ),
                               );
                             },
@@ -112,9 +125,8 @@ class _CourseAutoCompleteAddInput extends State<CourseAutoCompleteAddInput> {
               style: ButtonStyle(
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                    )
-                ),
+                  borderRadius: BorderRadius.circular(12.0),
+                )),
                 backgroundColor: MaterialStateProperty.all<Color>(
                   widget.sharedState.theme.subjectColor,
                 ),
@@ -127,12 +139,12 @@ class _CourseAutoCompleteAddInput extends State<CourseAutoCompleteAddInput> {
                 });
               },
               child: Container(
-                height: 60+12,
-                width: 60-12,
+                height: 60 + 12,
+                width: 60 - 12,
                 alignment: Alignment.center,
                 child: Icon(
                   Icons.add,
-                  size: 60-12,
+                  size: 60 - 12,
                   color: widget.sharedState.theme.textColor,
                 ),
               ),

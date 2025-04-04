@@ -3,35 +3,28 @@ import 'dart:developer';
 import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart'; // Contains HTML parsers to generate a Document object
 import 'package:http/http.dart'; // Contains a client for making API calls
-
-import 'package:stundenplan/parsing/parsing_util.dart'; // Contains parsing utils
+import 'package:stundenplan/constants.dart';
 import 'package:stundenplan/content.dart';
+import 'package:stundenplan/parsing/parsing_util.dart'; // Contains parsing utils
 import 'package:tuple/tuple.dart';
-
-import '../constants.dart';
-
 
 /// This will fill the input content with a timetable based on the other arguments
 Future<void> fillTimeTable(String course, List<dom.Element>? tables,
-    Content content, List<String> subjects) async
-{
+    Content content, List<String> subjects) async {
   if (tables != null) {
     final mainTimeTable = tables[0];
     final footnoteTable = tables[1];
-    final footnoteMap = parseFootnoteTable(footnoteTable); // Parse the footnote table
-    parseMainTimeTable(content, subjects, mainTimeTable, footnoteMap, course); // Parse the main timetable
+    final footnoteMap =
+        parseFootnoteTable(footnoteTable); // Parse the footnote table
+    parseMainTimeTable(content, subjects, mainTimeTable, footnoteMap,
+        course); // Parse the main timetable
   }
 }
 
-enum GetTileTablesResponse {
-  notFound,
-  badStatus,
-  fatalError,
-  noTable,
-  ok
-}
+enum GetTileTablesResponse { notFound, badStatus, fatalError, noTable, ok }
 
-Future<Tuple2<List<dom.Element>?, GetTileTablesResponse>> getTimeTableTables(String course, String linkBase, Client client) async {
+Future<Tuple2<List<dom.Element>?, GetTileTablesResponse>> getTimeTableTables(
+    String course, String linkBase, Client client) async {
   // Get the html file
   final response = await client.get(Uri.parse('${linkBase}_$course.htm'));
   if (response.statusCode != 200) {
@@ -39,7 +32,8 @@ Future<Tuple2<List<dom.Element>?, GetTileTablesResponse>> getTimeTableTables(Str
       log("Cannot get timetable $course: Not found", name: "parsing.timetable");
       return const Tuple2(null, GetTileTablesResponse.notFound);
     }
-    log("Cannot get timetable $course: Bad status code ${response.statusCode}", name: "parsing.timetable");
+    log("Cannot get timetable $course: Bad status code ${response.statusCode}",
+        name: "parsing.timetable");
     return const Tuple2(null, GetTileTablesResponse.badStatus);
   }
   final dom.Document document = getParsedDocumentFromResponse(response);
@@ -63,7 +57,6 @@ Future<Tuple2<List<dom.Element>?, GetTileTablesResponse>> getTimeTableTables(Str
   }
   return const Tuple2(null, GetTileTablesResponse.noTable);
 }
-
 
 dom.Document getParsedDocumentFromResponse(Response response) {
   // Init the parser
@@ -231,7 +224,8 @@ HashMap<String, List<Footnote>> parseFootnoteTable(dom.Element footnoteTable) {
             break;
           case "ZeilenText-2":
             final footnote = footnotes[rowIndex];
-            footnote.text += "${footnote.text.isEmpty ? " " : ""}${customStrip(value)}";
+            footnote.text +=
+                "${footnote.text.isEmpty ? " " : ""}${customStrip(value)}";
             break;
           default:
             break;
@@ -255,16 +249,17 @@ void parseMainTimeTable(
     List<String> subjects,
     dom.Element mainTimeTable,
     HashMap<String, List<Footnote>> footnoteMap,
-    String course)
-{
-  final rows = mainTimeTable.children[0].children; // Gets all <tr> elements of the main table
+    String course) {
+  final rows = mainTimeTable
+      .children[0].children; // Gets all <tr> elements of the main table
   rows.removeAt(0); // Removes header
 
   // Loop over all rows
   for (var y = 0; y < rows.length; y++) {
     final row = rows[y];
     final columns = row.children; // Gets the columns within that row
-    var tableX = 0; // The next valid index of the next column within the html grid
+    var tableX =
+        0; // The next valid index of the next column within the html grid
     // Ignore this row if its empty
     if (columns.isEmpty) {
       continue;
@@ -278,7 +273,8 @@ void parseMainTimeTable(
       } else {
         var doParseCell = true; // If this is false that cell will not be parsed
         if (y != 0) {
-          final contentY = (y / 2).floor(); // Get the y pos in the content timetable from the html y pos
+          final contentY = (y / 2)
+              .floor(); // Get the y pos in the content timetable from the html y pos
           if (contentY >= content.cells.length) {
             // If content to small break
             break;
@@ -286,11 +282,13 @@ void parseMainTimeTable(
           // Check if a class is already at this position (Only happens if a double class is above the current class)
           final isDoubleClass = content.cells[contentY][x].isDoubleClass;
           if (isDoubleClass) {
-            doParseCell = false; // Don't parse this cell since it dose not exist in the html
+            doParseCell =
+                false; // Don't parse this cell since it dose not exist in the html
           }
         }
         if (doParseCell) {
-          parseOneCell(columns[tableX], x, y, content, subjects, footnoteMap, course);
+          parseOneCell(
+              columns[tableX], x, y, content, subjects, footnoteMap, course);
           tableX++;
         }
       }
@@ -299,23 +297,33 @@ void parseMainTimeTable(
 }
 
 /// Gets all theoretically available subjects, only supposed to be used for autocompletion
-Future<List<String>> getAllAvailableSubjects(Client client, String fullSchoolGradeName, String schoolGrade) async {
-  final tablesMain = (await getTimeTableTables(fullSchoolGradeName, Constants.timeTableLinkBase, client)).item1;
+Future<List<String>> getAllAvailableSubjects(
+    Client client, String fullSchoolGradeName, String schoolGrade) async {
+  final tablesMain = (await getTimeTableTables(
+          fullSchoolGradeName, Constants.timeTableLinkBase, client))
+      .item1;
   if (tablesMain == null) return [];
-  final options = (getAvailableSubjectNames(tablesMain)).toList();
+  final options = getAvailableSubjectNames(tablesMain).toList();
   if (!Constants.displayFullHeightSchoolGrades.contains(schoolGrade)) {
-    final tablesCourse = (await getTimeTableTables("${schoolGrade}K", Constants.timeTableLinkBase, client)).item1;
-    if (tablesCourse != null) options.addAll(getAvailableSubjectNames(tablesCourse));
+    final tablesCourse = (await getTimeTableTables(
+            "${schoolGrade}K", Constants.timeTableLinkBase, client))
+        .item1;
+    if (tablesCourse != null) {
+      options.addAll(getAvailableSubjectNames(tablesCourse));
+    }
   }
   if (Constants.useAGs) {
-    final tablesAgs = (await getTimeTableTables(Constants.specialClassNameAG, Constants.timeTableLinkBase, client)).item1;
+    final tablesAgs = (await getTimeTableTables(
+            Constants.specialClassNameAG, Constants.timeTableLinkBase, client))
+        .item1;
     if (tablesAgs != null) options.addAll(getAvailableSubjectNames(tablesAgs));
   }
   return options;
 }
 
 HashSet<String> getAvailableSubjectNamesInTimetable(dom.Element mainTimeTable) {
-  final rows = mainTimeTable.children[0].children; // Gets all <tr> elements of the main table
+  final rows = mainTimeTable
+      .children[0].children; // Gets all <tr> elements of the main table
   rows.removeAt(0); // Removes header
   final HashSet<String> availableSubjects = HashSet();
   // Loop over all rows
@@ -336,7 +344,6 @@ HashSet<String> getAvailableSubjectNamesInTimetable(dom.Element mainTimeTable) {
   return availableSubjects;
 }
 
-
 HashSet<String> getAvailableSubjectNames(List<dom.Element>? tables) {
   final HashSet<String> availableSubjects = HashSet();
 
@@ -347,7 +354,8 @@ HashSet<String> getAvailableSubjectNames(List<dom.Element>? tables) {
     for (final subject in getAvailableSubjectNamesInTimetable(mainTimeTable)) {
       availableSubjects.add(subject);
     }
-    final footnoteMap = parseFootnoteTable(footnoteTable); // Parse the footnote table
+    final footnoteMap =
+        parseFootnoteTable(footnoteTable); // Parse the footnote table
     // Add subject in footnotes
     for (final footnotes in footnoteMap.values) {
       for (final footnote in footnotes) {
@@ -358,7 +366,6 @@ HashSet<String> getAvailableSubjectNames(List<dom.Element>? tables) {
   availableSubjects.remove("---");
   return availableSubjects;
 }
-
 
 String? getSubjectName(dom.Element cellDom) {
   final cellData = cellDom.children[0].children[0].children;
@@ -376,8 +383,7 @@ void parseOneCell(
     Content content,
     List<String> subjects,
     HashMap<String, List<Footnote>> footnoteMap,
-    String course)
-{
+    String course) {
   var cell = Cell();
 
   // Ignore the sidebar
@@ -395,7 +401,9 @@ void parseOneCell(
     final subjectAndFootnote = cellData[1].children;
     cell.teacher = customStrip(teacherAndRoom[0].text);
     // Check if room data exists and set it if it does
-    if (teacherAndRoom.length > 1) cell.room = customStrip(teacherAndRoom[1].text);
+    if (teacherAndRoom.length > 1) {
+      cell.room = customStrip(teacherAndRoom[1].text);
+    }
     cell.subject = customStrip(subjectAndFootnote[0].text);
     // Check if footnote exists
     if (subjectAndFootnote.length > 1) {
@@ -406,7 +414,8 @@ void parseOneCell(
       // Filter out footnotes that don't matter to the user
       final requiredFootnotes = <Footnote>[];
       for (final footnote in footnotes) {
-        if (subjects.contains(footnote.subject) && footnote.schoolClasses.contains(course)) {
+        if (subjects.contains(footnote.subject) &&
+            footnote.schoolClasses.contains(course)) {
           requiredFootnotes.add(footnote);
         }
       }

@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use, avoid_dynamic_calls
+
 import 'package:flutter/material.dart';
 
 final darkTheme = Theme(
@@ -40,7 +42,6 @@ final neonTheme = Theme(
   const Color.fromRGBO(255, 0, 0, 1), // Subject substitution color
 );
 
-
 // Theses colors are just the standard colors for the custom theme and can be changed.
 final customTheme = Theme(
   "Eigenes", // Theme name
@@ -53,20 +54,17 @@ final customTheme = Theme(
       252 - 30, 92 - 30, 101 - 30, 1.0), // Subject substitution color
 );
 
-
-final themes = [darkTheme, arcticTheme,lightTheme, customTheme];
-
+final themes = [darkTheme, arcticTheme, lightTheme, customTheme];
 
 Map<String, dynamic> colorToJsonData(Color color) {
   final jsonColorData = <String, dynamic>{
-    "r" : color.red,
-    "g" : color.green,
-    "b" : color.blue,
-    "o" : color.opacity
+    "r": color.red,
+    "g": color.green,
+    "b": color.blue,
+    "o": color.opacity
   };
   return jsonColorData;
 }
-
 
 Color colorFromJsonData(dynamic jsonColorData) {
   return Color.fromRGBO(
@@ -75,7 +73,6 @@ Color colorFromJsonData(dynamic jsonColorData) {
       int.parse(jsonColorData["b"].toString()),
       double.parse(jsonColorData["o"].toString()));
 }
-
 
 class Theme {
   final String themeName;
@@ -93,18 +90,18 @@ class Theme {
   }
 
   static Color invertColor(Color color) {
-    return Color.fromRGBO(255 - color.red, 255 - color.green,
-        255 - color.blue, color.opacity);
+    return Color.fromRGBO(
+        255 - color.red, 255 - color.green, 255 - color.blue, color.opacity);
   }
 
   Map<String, dynamic> getJsonData() {
     final jsonThemeData = <String, dynamic>{
-      "themeName" : themeName,
-      "backgroundColor" : colorToJsonData(backgroundColor),
-      "textColor" : colorToJsonData(textColor),
-      "subjectColor" : colorToJsonData(subjectColor),
-      "subjectDropOutColor" : colorToJsonData(subjectDropOutColor),
-      "subjectSubstitutionColor" : colorToJsonData(subjectSubstitutionColor)
+      "themeName": themeName,
+      "backgroundColor": colorToJsonData(backgroundColor),
+      "textColor": colorToJsonData(textColor),
+      "subjectColor": colorToJsonData(subjectColor),
+      "subjectDropOutColor": colorToJsonData(subjectDropOutColor),
+      "subjectSubstitutionColor": colorToJsonData(subjectSubstitutionColor)
     };
     return jsonThemeData;
   }

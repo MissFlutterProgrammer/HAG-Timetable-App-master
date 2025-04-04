@@ -8,10 +8,13 @@ enum CalendarType {
   personal
 }
 
-const pluginCalendarTypes = [CalendarType.exam, CalendarType.exercise, CalendarType.holiday];
+const pluginCalendarTypes = [
+  CalendarType.exam,
+  CalendarType.exercise,
+  CalendarType.holiday
+];
 
 extension CalendarTypeExtension on CalendarType {
-
   String name() {
     switch (this) {
       case CalendarType.exam:
@@ -63,7 +66,8 @@ class CalendarDataPoint {
 
   // ignore: prefer_constructors_over_static_methods
   static CalendarDataPoint fromJson(Map<String, dynamic> jsonData) {
-    final calendarType = CalendarTypeExtension.fromString(jsonData["calendarType"] as String);
+    final calendarType =
+        CalendarTypeExtension.fromString(jsonData["calendarType"] as String);
     final name = jsonData["name"] as String;
     final startDate = DateTime.parse(jsonData["startDate"] as String);
     final endDate = DateTime.parse(jsonData["endDate"] as String);
@@ -90,18 +94,20 @@ class CalendarData {
 
   void addCalendarDataPoint(CalendarDataPoint dataPoint) {
     final now = DateTime.now();
-    var weekStartDate = now.subtract(Duration(days: now.weekday-1));
+    var weekStartDate = now.subtract(Duration(days: now.weekday - 1));
     if (now.weekday > 5) {
       weekStartDate = weekStartDate.add(const Duration(days: 6));
     }
     // Strip time out of the date so that the current time does not influence the isBefore and isAfter functions
-    weekStartDate = DateTime(weekStartDate.year, weekStartDate.month, weekStartDate.day);
+    weekStartDate =
+        DateTime(weekStartDate.year, weekStartDate.month, weekStartDate.day);
     final weekEndDate = weekStartDate.add(const Duration(days: 6));
     // If the data point is not in the current week skip it
     if (dataPoint.startDate.isAfter(weekEndDate)) return;
     if (dataPoint.endDate.isBefore(weekStartDate)) return;
     // Calculate days between start and end date
-    final daysBetween = (dataPoint.endDate.difference(dataPoint.startDate).inHours / 24).ceil();
+    final daysBetween =
+        (dataPoint.endDate.difference(dataPoint.startDate).inHours / 24).ceil();
     var daysToAdd = daysBetween;
     if (daysBetween == 0) {
       daysToAdd += 1;
@@ -110,7 +116,7 @@ class CalendarData {
     // Add days between start and end date
     for (var i = 0; i < daysToAdd; i++) {
       final newDate = dataPoint.startDate.add(Duration(days: i));
-      final weekDay = newDate.weekday-1;
+      final weekDay = newDate.weekday - 1;
       if (weekDay > 4) continue;
       if (newDate.isBefore(weekStartDate)) continue;
       if (newDate.isAfter(weekEndDate)) break;
@@ -123,7 +129,8 @@ class CalendarData {
     final calendarData = CalendarData();
     for (final day in jsonData) {
       for (final dataPointJson in day as List<dynamic>) {
-        final dataPoint = CalendarDataPoint.fromJson(dataPointJson as Map<String, dynamic>);
+        final dataPoint =
+            CalendarDataPoint.fromJson(dataPointJson as Map<String, dynamic>);
         calendarData.addCalendarDataPoint(dataPoint);
       }
     }
@@ -133,7 +140,7 @@ class CalendarData {
   List<dynamic> toJson() {
     final outputJson = <List<dynamic>>[];
     for (final day in days) {
-      final dayDataPointsJson =<Map<String, dynamic>>[];
+      final dayDataPointsJson = <Map<String, dynamic>>[];
       for (final dataPoint in day) {
         dayDataPointsJson.add(dataPoint.toJson());
       }

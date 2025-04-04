@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stundenplan/calendar_data.dart';
@@ -6,13 +5,12 @@ import 'package:stundenplan/constants.dart';
 import 'package:stundenplan/content.dart';
 import 'package:stundenplan/shared_state.dart';
 import 'package:stundenplan/widgets/calender_info_diaglog.dart';
-
-import 'info_dialog.dart';
+import 'package:stundenplan/widgets/info_dialog.dart';
 
 class WeekdayGridObject extends StatelessWidget {
   WeekdayGridObject(
-      {/*required*/  required this.weekday,
-      /*required*/  required this.x,
+      {/*required*/ required this.weekday,
+      /*required*/ required this.x,
       /*required*/ required this.needsLeftBorder,
       /*required*/ required this.needsRightBorder,
       /*required*/ required this.sharedState});
@@ -26,12 +24,14 @@ class WeekdayGridObject extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dataPoints = sharedState.calendarData.days[x-1];
-    final isHoliday = sharedState.holidayWeekdays.contains(x) || dataPoints.where((element) => element.calendarType == CalendarType.holiday).isNotEmpty;
+    final dataPoints = sharedState.calendarData.days[x - 1];
+    final isHoliday = sharedState.holidayWeekdays.contains(x) ||
+        dataPoints
+            .where((element) => element.calendarType == CalendarType.holiday)
+            .isNotEmpty;
     return Expanded(
       child: Opacity(
-        opacity:
-          isHoliday ? 0.5 : 1.0,
+        opacity: isHoliday ? 0.5 : 1.0,
         child: InkWell(
           onTap: () {
             if (dataPoints.isNotEmpty) {
@@ -45,9 +45,11 @@ class WeekdayGridObject extends StatelessWidget {
                   topRight: Radius.circular(needsRightBorder ? 5 : 0),
                 ),
                 border: Border.all(width: 0.75, color: Colors.black26),
-                color: x == weekdayToday ? sharedState.theme.textColor
-                      : dataPoints.isNotEmpty ? sharedState.theme.subjectDropOutColor.withAlpha(150)
-                      : sharedState.theme.textColor.withAlpha(25)),
+                color: x == weekdayToday
+                    ? sharedState.theme.textColor
+                    : dataPoints.isNotEmpty
+                        ? sharedState.theme.subjectDropOutColor.withAlpha(150)
+                        : sharedState.theme.textColor.withAlpha(25)),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Center(
@@ -70,11 +72,11 @@ class WeekdayGridObject extends StatelessWidget {
 class ClassGridObject extends StatelessWidget {
   const ClassGridObject(
       {required this.content,
-       required this.sharedState,
-       required this.x,
-       required this.y,
-       required this.needsLeftBorder,
-       required this.context});
+      required this.sharedState,
+      required this.x,
+      required this.y,
+      required this.needsLeftBorder,
+      required this.context});
 
   final Content content;
   final SharedState sharedState;
@@ -87,149 +89,166 @@ class ClassGridObject extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Opacity(
-        opacity:
-          sharedState.holidayWeekdays.contains(x) || sharedState.calendarData.days[x-1].where((element) => element.calendarType == CalendarType.holiday).isNotEmpty ? 0.5 : 1.0,
+        opacity: sharedState.holidayWeekdays.contains(x) ||
+                sharedState.calendarData.days[x - 1]
+                    .where((element) =>
+                        element.calendarType == CalendarType.holiday)
+                    .isNotEmpty
+            ? 0.5
+            : 1.0,
         child: content.cells[y][x].isEmpty()
             ? Container(
-            decoration: BoxDecoration(
-              color: sharedState.theme.textColor.withAlpha(10),
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(
-                    (y == sharedState.height! - 2 && x == 1) ? 5 : 0),
-                bottomRight: Radius.circular(
-                    (y == sharedState.height! - 2 && x == Constants.width - 1)
+                decoration: BoxDecoration(
+                  color: sharedState.theme.textColor.withAlpha(10),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(
+                        (y == sharedState.height - 2 && x == 1) ? 5 : 0),
+                    bottomRight: Radius.circular((y == sharedState.height - 2 &&
+                            x == Constants.width - 1)
                         ? 5
                         : 0),
-              ),
-              border: Border.all(width: 0.5, color: Colors.black26),
-            ),
-            child: Column(
-              children: [
-                Text(
-                  content.cells[y][x].originalSubject,
-                  style: const TextStyle(
-                      color: Colors.transparent,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0),
-                ),
-                Text(
-                  content.cells[y][x].subject,
-                  style: const TextStyle(
-                    color: Colors.transparent,
                   ),
+                  border: Border.all(width: 0.5, color: Colors.black26),
                 ),
-                Text(
-                  content.cells[y][x].room,
-                  style: const TextStyle(
-                    color: Colors.transparent,
-                  ),
+                child: Column(
+                  children: [
+                    Text(
+                      content.cells[y][x].originalSubject,
+                      style: const TextStyle(
+                          color: Colors.transparent,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0),
+                    ),
+                    Text(
+                      content.cells[y][x].subject,
+                      style: const TextStyle(
+                        color: Colors.transparent,
+                      ),
+                    ),
+                    Text(
+                      content.cells[y][x].room,
+                      style: const TextStyle(
+                        color: Colors.transparent,
+                      ),
+                    ),
+                    Text(
+                      content.cells[y][x].teacher,
+                      style: const TextStyle(
+                        color: Colors.transparent,
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  content.cells[y][x].teacher,
-                  style: const TextStyle(
-                    color: Colors.transparent,
-                  ),
-                ),
-              ],
-            ),
               )
             : Material(
-          color: Colors.transparent,
-              child: InkWell(
-                onTap: () {
-                  showInfoDialog(content.cells[y][x], context, sharedState);
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: !content.cells[y][x].isDropped
-                        ? content.cells[y][x].isSubstitute
-                            ? sharedState.theme.subjectSubstitutionColor
-                            : sharedState.theme.subjectColor
-                        : sharedState.theme.subjectDropOutColor,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(
-                          (y == sharedState.height! - 2 && x == 1) ? 5 : 0),
-                      bottomRight: Radius.circular(
-                          (y == sharedState.height! - 2 && x == Constants.width - 1)
-                              ? 5
-                              : 0),
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {
+                    showInfoDialog(content.cells[y][x], context, sharedState);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: !content.cells[y][x].isDropped
+                          ? content.cells[y][x].isSubstitute
+                              ? sharedState.theme.subjectSubstitutionColor
+                              : sharedState.theme.subjectColor
+                          : sharedState.theme.subjectDropOutColor,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(
+                            (y == sharedState.height - 2 && x == 1) ? 5 : 0),
+                        bottomRight: Radius.circular(
+                            (y == sharedState.height - 2 &&
+                                    x == Constants.width - 1)
+                                ? 5
+                                : 0),
+                      ),
+                      border: Border.all(
+                        width: 0.5,
+                        color: Colors.black26,
+                      ),
                     ),
-                    border: Border.all(width: 0.5, color: Colors.black26,
-                  ),),
-                  child: Column(
-                    children: content.cells[y][x].isDropped
-                        ? [
-                            Text(
-                              content.cells[y][x].originalSubject,
-                              style: TextStyle(
-                                  color: sharedState.theme.textColor
-                                      .withAlpha(214),
-                                  decoration: TextDecoration.lineThrough,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16.0),overflow: TextOverflow.ellipsis,                  maxLines: 1,
-                            ),
-                            Text(
-                              content.cells[y][x].subject,
-                              style:
-                                  TextStyle(color: sharedState.theme.textColor),overflow: TextOverflow.ellipsis,                  maxLines: 1,
-                            ),
-                            Text(
-                              content.cells[y][x].room,
-                              style:
-                                  TextStyle(color: sharedState.theme.textColor),overflow: TextOverflow.ellipsis,                  maxLines: 1,
-                            ),
-                            Text(
-                              content.cells[y][x].teacher,
-                              style:
-                                  TextStyle(color: sharedState.theme.textColor),overflow: TextOverflow.ellipsis,                  maxLines: 1,
-                            ),
-                          ]
-                        : [
-                            Text(
-                              content.cells[y][x].originalSubject,
-                              style: const TextStyle(
-                                color: Colors.transparent,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 8.5,
+                    child: Column(
+                      children: content.cells[y][x].isDropped
+                          ? [
+                              Text(
+                                content.cells[y][x].originalSubject,
+                                style: TextStyle(
+                                    color: sharedState.theme.textColor
+                                        .withAlpha(214),
+                                    decoration: TextDecoration.lineThrough,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
                               ),
-                            ),
-                            Text(
-                              content.cells[y][x].subject,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: sharedState.theme.textColor),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-                            Text(
-                              content.cells[y][x].room,
-                              style:
-                                  TextStyle(color: sharedState.theme.textColor),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-                            Text(
-                              content.cells[y][x].teacher,
-                              style:
-                                  TextStyle(color: sharedState.theme.textColor),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-                            Text(
-                              content.cells[y][x].originalSubject,
-                              style: const TextStyle(
-                                color: Colors.transparent,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 8.5,
+                              Text(
+                                content.cells[y][x].subject,
+                                style: TextStyle(
+                                    color: sharedState.theme.textColor),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
                               ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-                          ],
+                              Text(
+                                content.cells[y][x].room,
+                                style: TextStyle(
+                                    color: sharedState.theme.textColor),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                              Text(
+                                content.cells[y][x].teacher,
+                                style: TextStyle(
+                                    color: sharedState.theme.textColor),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                            ]
+                          : [
+                              Text(
+                                content.cells[y][x].originalSubject,
+                                style: const TextStyle(
+                                  color: Colors.transparent,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 8.5,
+                                ),
+                              ),
+                              Text(
+                                content.cells[y][x].subject,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: sharedState.theme.textColor),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                              Text(
+                                content.cells[y][x].room,
+                                style: TextStyle(
+                                    color: sharedState.theme.textColor),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                              Text(
+                                content.cells[y][x].teacher,
+                                style: TextStyle(
+                                    color: sharedState.theme.textColor),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                              Text(
+                                content.cells[y][x].originalSubject,
+                                style: const TextStyle(
+                                  color: Colors.transparent,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 8.5,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                            ],
+                    ),
                   ),
                 ),
               ),
-            ),
       ),
     );
   }

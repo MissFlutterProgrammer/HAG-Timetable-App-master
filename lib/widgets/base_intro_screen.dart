@@ -31,9 +31,13 @@ class BaseIntroScreen extends StatelessWidget {
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
-            if (helpPage != null) HelpButton(helpPage!, sharedState: sharedState) else Container(),
+            if (helpPage != null)
+              HelpButton(helpPage!, sharedState: sharedState)
+            else
+              Container(),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 50.0, horizontal: 20.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 50.0, horizontal: 20.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -46,44 +50,45 @@ class BaseIntroScreen extends StatelessWidget {
                           style: GoogleFonts.poppins(
                               color: sharedState.theme.textColor,
                               fontWeight: FontWeight.bold,
-                              fontSize: 40.0
-                          ),
+                              fontSize: 40.0),
                           textAlign: TextAlign.center,
                         ),
                       ),
                       Text(
                         subtitle,
                         style: GoogleFonts.poppins(
-                            color: sharedState.theme.textColor, fontSize: 18.0
-                        ),
+                            color: sharedState.theme.textColor, fontSize: 18.0),
                         textAlign: TextAlign.center,
                       ),
                     ],
                   ),
                   child,
-                  if (noButton) Container() else ElevatedButton(
-                    onPressed: onPressed,
-                    style: ButtonStyle(
-                      shape:  MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                          )
+                  if (noButton)
+                    Container()
+                  else
+                    ElevatedButton(
+                      onPressed: onPressed,
+                      style: ButtonStyle(
+                        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        )),
+                        backgroundColor: WidgetStateProperty.all<Color>(
+                          sharedState.theme.subjectColor,
+                        ),
                       ),
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                        sharedState.theme.subjectColor,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 12.0, horizontal: 20.0),
+                        child: Text(
+                          buttonText,
+                          style: GoogleFonts.poppins(
+                              color: sharedState.theme.textColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 28.0),
+                        ),
                       ),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
-                      child: Text(
-                        buttonText,
-                        style: GoogleFonts.poppins(
-                            color: sharedState.theme.textColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 28.0),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),

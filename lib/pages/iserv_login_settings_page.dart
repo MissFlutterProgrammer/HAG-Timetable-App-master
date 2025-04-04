@@ -1,17 +1,16 @@
 import 'dart:io';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stundenplan/constants.dart';
+import 'package:stundenplan/helper_functions.dart';
 import 'package:stundenplan/parsing/iserv_authentication.dart';
+import 'package:stundenplan/shared_state.dart';
 import 'package:stundenplan/widgets/buttons.dart';
 import 'package:stundenplan/widgets/labeled_text_input.dart';
 import 'package:tuple/tuple.dart';
-import '../helper_functions.dart';
-import '../shared_state.dart';
 
 class IServLoginSettingsPage extends StatefulWidget {
   final SharedState sharedState;
@@ -23,7 +22,6 @@ class IServLoginSettingsPage extends StatefulWidget {
 }
 
 class _IServLoginSettingsPageState extends State<IServLoginSettingsPage> {
-
   final credentialsOutputList = <String>[];
   bool areCredentialsAvailable = false;
   bool incorrectUsername = false;
@@ -33,7 +31,9 @@ class _IServLoginSettingsPageState extends State<IServLoginSettingsPage> {
   @override
   void initState() {
     super.initState();
-    areIServCredentialsSet().then((value) => setState(() {areCredentialsAvailable = value;}));
+    areIServCredentialsSet().then((value) => setState(() {
+          areCredentialsAvailable = value;
+        }));
   }
 
   Future<void> saveIServCredentialsAndGoBack() async {
@@ -61,10 +61,15 @@ class _IServLoginSettingsPageState extends State<IServLoginSettingsPage> {
     if (await isInternetAvailable(Connectivity())) {
       setState(() => isCheckingCredentials = true);
       // Make Request to check url and get the response kind
-      final iServCredentials = Tuple2(credentialsOutputList[0], credentialsOutputList[1]);
+      final iServCredentials =
+          Tuple2(credentialsOutputList[0], credentialsOutputList[1]);
       final httpClient = HttpClient();
-      final result = await makeRequestWithRedirects("POST", Uri.parse(Constants.credentialCheckUrlIServ), httpClient, CookieJar(), headers: iServLoginExtraHeaders, body: getIServLoginPostBody(iServCredentials));
-      final responseKind = getIServLoginResponseKind(result.item3.statusCode, result.item4);
+      final result = await makeRequestWithRedirects("POST",
+          Uri.parse(Constants.credentialCheckUrlIServ), httpClient, CookieJar(),
+          headers: iServLoginExtraHeaders,
+          body: getIServLoginPostBody(iServCredentials));
+      final responseKind =
+          getIServLoginResponseKind(result.item3.statusCode, result.item4);
       httpClient.close();
       setState(() => isCheckingCredentials = false);
       // Display possible to user
@@ -87,7 +92,9 @@ class _IServLoginSettingsPageState extends State<IServLoginSettingsPage> {
       const FlutterSecureStorage storage = FlutterSecureStorage();
       await storage.write(key: "username", value: credentialsOutputList[0]);
       await storage.write(key: "password", value: credentialsOutputList[1]);
-      await storage.write(key: "credentialsLastLoaded", value: DateTime.now().toIso8601String());
+      await storage.write(
+          key: "credentialsLastLoaded",
+          value: DateTime.now().toIso8601String());
       // Clear the schulmanagerClassName, that is dependent on the, with IServ associated Schulmanager account.
       // This is done, so that the schulmanger is forced to refresh the current school class
       widget.sharedState.schulmanagerClassName = null;
@@ -113,9 +120,11 @@ class _IServLoginSettingsPageState extends State<IServLoginSettingsPage> {
       child: SafeArea(
         child: Stack(
           children: [
-            HelpButton("Einstellungen#iserv-login-optionen", sharedState: widget.sharedState),
+            HelpButton("Einstellungen#iserv-login-optionen",
+                sharedState: widget.sharedState),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 50.0, horizontal: 20.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 50.0, horizontal: 20.0),
               child: ListView(
                 shrinkWrap: true,
                 physics: const BouncingScrollPhysics(),
@@ -127,14 +136,16 @@ class _IServLoginSettingsPageState extends State<IServLoginSettingsPage> {
                           style: GoogleFonts.poppins(
                               color: widget.sharedState.theme.textColor,
                               fontWeight: FontWeight.bold,
-                              fontSize: 15
-                          ),
-                          textAlign: TextAlign.center
-                      ),
+                              fontSize: 15),
+                          textAlign: TextAlign.center),
                       const Divider(height: 15),
-                      LabeledTextInput("Nutzername", widget.sharedState, credentialsOutputList, 0, incorrect: incorrectUsername),
+                      LabeledTextInput("Nutzername", widget.sharedState,
+                          credentialsOutputList, 0,
+                          incorrect: incorrectUsername),
                       const Divider(height: 15),
-                      LabeledTextInput("Passwort", widget.sharedState, credentialsOutputList, 1, obscureText: true, incorrect: incorrectPassword),
+                      LabeledTextInput("Passwort", widget.sharedState,
+                          credentialsOutputList, 1,
+                          obscureText: true, incorrect: incorrectPassword),
                       const Divider(height: 15),
                       if (areCredentialsAvailable)
                         Column(
@@ -143,20 +154,23 @@ class _IServLoginSettingsPageState extends State<IServLoginSettingsPage> {
                               text: "Daten Löschen",
                               onPressed: deleteIServCredentials,
                               sharedState: widget.sharedState,
-                              color: widget.sharedState.theme.subjectSubstitutionColor.withAlpha(220),
+                              color: widget
+                                  .sharedState.theme.subjectSubstitutionColor
+                                  .withAlpha(220),
                             ),
                             const Divider(height: 30)
                           ],
                         )
-                      else Container(),
+                      else
+                        Container(),
                       StandardButton(
-                          text: "Speichern",
-                          onPressed: saveIServCredentialsAndGoBack,
-                          sharedState: widget.sharedState,
-                          size: 1.5,
-                          fontSize: 25,
-                          color: widget.sharedState.theme.subjectColor,
-                          disabled: isCheckingCredentials,
+                        text: "Speichern",
+                        onPressed: saveIServCredentialsAndGoBack,
+                        sharedState: widget.sharedState,
+                        size: 1.5,
+                        fontSize: 25,
+                        color: widget.sharedState.theme.subjectColor,
+                        disabled: isCheckingCredentials,
                       ),
                     ],
                   )

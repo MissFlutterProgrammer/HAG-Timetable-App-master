@@ -1,16 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:archive/archive.dart';
 import 'package:clock/clock.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:stundenplan/constants.dart';
 import 'package:stundenplan/pages/setup_page.dart';
 import 'package:stundenplan/shared_state.dart';
@@ -36,7 +34,8 @@ Future<PermissionStatus> requestStorage() async {
   if (info.version.sdkInt >= 30) {
     return Permission.manageExternalStorage.request();
   } else {
-    return Permission.storage.request(); // Deprecated but needed for older phones
+    return Permission.storage
+        .request(); // Deprecated but needed for older phones
   }
 }
 
@@ -70,10 +69,16 @@ Future<void> saveToFile(String data, String path) async {
 
 Future<String> loadFromFile(String path) async {
   // This function uses root-level file access, which is only available on android
-  if (kIsWeb) throw const OSError("Root-level file access is only available on android");
-  if (!Platform.isAndroid) throw const OSError("Root-level file access is only available on android");
+  if (kIsWeb) {
+    throw const OSError("Root-level file access is only available on android");
+  }
+  if (!Platform.isAndroid) {
+    throw const OSError("Root-level file access is only available on android");
+  }
   // Check if we have the storage Permission
-  if (await requestStorage().isDenied) throw const OSError("Storage access is denied");
+  if (await requestStorage().isDenied) {
+    throw const OSError("Storage access is denied");
+  }
 
   // Create a reference to the File
   final File saveFile = File(path);
@@ -93,7 +98,8 @@ Future<void> saveToFileArchived(String data, String path) async {
     final File saveFile = await File(path).create(recursive: true);
     await saveFile.writeAsBytes(compressedData!);
   } catch (e) {
-    log("Error while writing archive to file at '$path'", name: "file", error: e);
+    log("Error while writing archive to file at '$path'",
+        name: "file", error: e);
   }
 }
 
@@ -101,13 +107,16 @@ String? getCharAt(String string, int index, {bool ignoreLength = false}) {
   if (ignoreLength && string.length <= index) {
     return null;
   }
-  return string.substring(index, index+1);
+  return string.substring(index, index + 1);
 }
 
 int getRightLettersCount(String a, String b) {
-  final rightLetters = List.generate(a.length > b.length ? a.length : b.length, (i) => i)
-      .where((i) => getCharAt(a, i, ignoreLength: true) == getCharAt(b, i, ignoreLength: true))
-      .length;
+  final rightLetters =
+      List.generate(a.length > b.length ? a.length : b.length, (i) => i)
+          .where((i) =>
+              getCharAt(a, i, ignoreLength: true) ==
+              getCharAt(b, i, ignoreLength: true))
+          .length;
   return rightLetters;
 }
 
@@ -124,7 +133,10 @@ String findClosestStringInList(List<String> stringList, String string) {
 
 bool canUseSecureStorage() {
   if (kIsWeb) return true;
-  return Platform.isAndroid || Platform.isIOS || Platform.isLinux || Platform.isWindows;
+  return Platform.isAndroid ||
+      Platform.isIOS ||
+      Platform.isLinux ||
+      Platform.isWindows;
 }
 
 Future<void> setIServSessionCookies(String sessionCookies) async {
@@ -140,7 +152,8 @@ Future<String?> getIServSessionCookies() async {
     final lastLoadedTime = await updateLastLoaded(storage);
     if (lastLoadedTime == null) return null;
     // Session cookies are too old
-    if (DateTime.now().difference(lastLoadedTime) > Constants.loginSessionExpireDuration) {
+    if (DateTime.now().difference(lastLoadedTime) >
+        Constants.loginSessionExpireDuration) {
       await storage.delete(key: "sessionCookies");
       return null;
     }
@@ -164,7 +177,7 @@ Future<String?> getSchulmanagerJWT() async {
     final jwtComponents = jwt.split(".");
     if (jwtComponents.length != 3) return null;
     var jwtBase64String = jwtComponents[1];
-    Uint8List? payloadBytes = null;
+    Uint8List? payloadBytes;
     // I honestly have no Idea how base64 padding works so this will just have to do
     for (var i = 0; i <= 2; i++) {
       try {
@@ -180,7 +193,8 @@ Future<String?> getSchulmanagerJWT() async {
     final payloadJson = String.fromCharCodes(payloadBytes);
     final payload = jsonDecode(payloadJson) as Map<String, dynamic>;
     final expireUNIXTimestamp = payload["exp"] as int;
-    final expireTime = DateTime.fromMillisecondsSinceEpoch(expireUNIXTimestamp * 1000);
+    final expireTime =
+        DateTime.fromMillisecondsSinceEpoch(expireUNIXTimestamp * 1000);
     if (DateTime.now().isAfter(expireTime)) {
       log("Schulmanager JWT has expired", name: "credentials");
       await storage.delete(key: "schulmanagerJWT");
@@ -196,7 +210,8 @@ Future<DateTime?> updateLastLoaded(FlutterSecureStorage storage) async {
   if (lastLoadedString == null) return null;
   // Delete credentials if they haven't been loaded in roughly half a year
   final lastLoaded = DateTime.parse(lastLoadedString);
-  if (DateTime.now().difference(lastLoaded) > Constants.credentialExpireDuration) {
+  if (DateTime.now().difference(lastLoaded) >
+      Constants.credentialExpireDuration) {
     log("Credentials have expired", name: "credentials");
     if (kIsWeb) await storage.deleteAll();
     if (Platform.isWindows) {
@@ -210,7 +225,8 @@ Future<DateTime?> updateLastLoaded(FlutterSecureStorage storage) async {
     }
     return null;
   }
-  await storage.write(key: "credentialsLastLoaded", value: DateTime.now().toIso8601String());
+  await storage.write(
+      key: "credentialsLastLoaded", value: DateTime.now().toIso8601String());
   return lastLoaded;
 }
 
@@ -240,8 +256,9 @@ Future<bool> areIServCredentialsSet() async {
 Tuple2<DateTime, DateTime> getCurrentWeekStartEndDates() {
   DateTime now = clock.now();
   if (now.weekday > 5) now = now.add(const Duration(days: 2));
-  DateTime weekStartDate = now.subtract(Duration(days: now.weekday-1));
-  weekStartDate = DateTime(weekStartDate.year, weekStartDate.month, weekStartDate.day); // Strip out time, to just keep the date
+  DateTime weekStartDate = now.subtract(Duration(days: now.weekday - 1));
+  weekStartDate = DateTime(weekStartDate.year, weekStartDate.month,
+      weekStartDate.day); // Strip out time, to just keep the date
   return Tuple2(weekStartDate, weekStartDate.add(const Duration(days: 6)));
 }
 

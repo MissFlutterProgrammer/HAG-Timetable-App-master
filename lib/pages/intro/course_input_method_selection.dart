@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -109,19 +111,21 @@ class _CourseInputMethodSelectionPageState
                             builder: (context) =>
                                 CourseSelectionPage(widget.sharedState)));
                       },
-                      child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [
-                        Icon(
-                          Icons.edit,
-                          color: widget.sharedState.theme.textColor,
-                          size: 80,
-                        ),
-                        const SizedBox(height: 10.0),
-                        Text("Manuell",
-                            style: GoogleFonts.poppins(
-                                color: widget.sharedState.theme.textColor,
-                                fontSize: 30.0,
-                                fontWeight: FontWeight.bold))
-                      ])),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(
+                              Icons.edit,
+                              color: widget.sharedState.theme.textColor,
+                              size: 80,
+                            ),
+                            const SizedBox(height: 10.0),
+                            Text("Manuell",
+                                style: GoogleFonts.poppins(
+                                    color: widget.sharedState.theme.textColor,
+                                    fontSize: 30.0,
+                                    fontWeight: FontWeight.bold))
+                          ])),
                 )),
           ],
         ));

@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -134,7 +136,7 @@ class _ColoredSquare extends StatelessWidget {
     return AspectRatio(
       aspectRatio: 1,
       child: Padding(
-        padding: EdgeInsets.all(2.0),
+        padding: const EdgeInsets.all(2.0),
         child: Container(
           decoration: BoxDecoration(
               color: color, borderRadius: BorderRadius.circular(8.0)),
@@ -224,8 +226,13 @@ class _ColorPickerButtonState extends State<ColorPickerButton> {
             decoration: BoxDecoration(
               color: widget.bgColor,
               border: Border.all(
-                  color: widget.borderColor != null ? widget.borderColor! : widget.theme.textColor.withAlpha(150),
-                  style: widget.bgColor.withAlpha(255) == widget.theme.backgroundColor.withAlpha(255) ? BorderStyle.solid : BorderStyle.none),
+                  color: widget.borderColor != null
+                      ? widget.borderColor!
+                      : widget.theme.textColor.withAlpha(150),
+                  style: widget.bgColor.withAlpha(255) ==
+                          widget.theme.backgroundColor.withAlpha(255)
+                      ? BorderStyle.solid
+                      : BorderStyle.none),
               borderRadius: BorderRadius.circular(8.0),
             ),
             child: Padding(
@@ -234,7 +241,10 @@ class _ColorPickerButtonState extends State<ColorPickerButton> {
                 widget.text,
                 textAlign: TextAlign.center,
                 style: GoogleFonts.poppins(
-                  color: widget.textColor.withAlpha(255) == widget.bgColor.withAlpha(255) ? my_theme.Theme.invertColor(widget.textColor) : widget.textColor,
+                  color: widget.textColor.withAlpha(255) ==
+                          widget.bgColor.withAlpha(255)
+                      ? my_theme.Theme.invertColor(widget.textColor)
+                      : widget.textColor,
                   fontSize: widget.fontSize,
                 ),
               ),
@@ -257,34 +267,33 @@ class StandardButton extends StatelessWidget {
   final double size;
   final bool disabled;
 
-  const StandardButton({
-    required this.text,
-    required this.onPressed,
-    required this.sharedState,
-    required this.color,
-    this.fontSize = 20,
-    this.fontWeight = FontWeight.bold,
-    this.textColor,
-    this.size = 1,
-    this.disabled = false
-  });
+  const StandardButton(
+      {required this.text,
+      required this.onPressed,
+      required this.sharedState,
+      required this.color,
+      this.fontSize = 20,
+      this.fontWeight = FontWeight.bold,
+      this.textColor,
+      this.size = 1,
+      this.disabled = false});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: disabled ? null : onPressed,
       style: ButtonStyle(
-        shape:  MaterialStateProperty.all<RoundedRectangleBorder>(
+        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5.0),
-            )
-        ),
-        backgroundColor: MaterialStateProperty.all<Color>(
+          borderRadius: BorderRadius.circular(5.0),
+        )),
+        backgroundColor: WidgetStateProperty.all<Color>(
           color,
         ),
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 6.0 * size, horizontal: 10.0 * size),
+        padding:
+            EdgeInsets.symmetric(vertical: 6.0 * size, horizontal: 10.0 * size),
         child: Text(
           text,
           style: GoogleFonts.poppins(

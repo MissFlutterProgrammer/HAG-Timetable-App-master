@@ -1,8 +1,10 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'dart:developer';
 
 class Content {
   Content(int width, int height) {
-    for (var y = 0; y < height-1; y++) {
+    for (var y = 0; y < height - 1; y++) {
       final row = <Cell>[];
       for (var x = 0; x < width; x++) {
         row.add(Cell());
@@ -93,23 +95,21 @@ class Content {
   void combine(Content other) {
     for (var y = 0; y < cells.length; y++) {
       for (var x = 0; x < cells[y].length; x++) {
-
-          final myCell = cells[y][x];
-          Cell otherCell;
-          try {
-            otherCell = other.cells[y][x];
-          } catch(e) {
-            otherCell = Cell();
-          }
-          // If current cell is empty set cell to other
-          if (myCell.isEmpty()) {
-            setCell(y, x, otherCell);
-          }
-          // If other cell is not empty set cell to current
-          if (!otherCell.isEmpty()) {
-            setCell(y, x, otherCell);
-          }
-
+        final myCell = cells[y][x];
+        Cell otherCell;
+        try {
+          otherCell = other.cells[y][x];
+        } catch (e) {
+          otherCell = Cell();
+        }
+        // If current cell is empty set cell to other
+        if (myCell.isEmpty()) {
+          setCell(y, x, otherCell);
+        }
+        // If other cell is not empty set cell to current
+        if (!otherCell.isEmpty()) {
+          setCell(y, x, otherCell);
+        }
       }
     }
   }
@@ -141,7 +141,9 @@ class Footnote {
     newFootnote.subject = jsonData["subject"].toString();
     newFootnote.room = jsonData["room"].toString();
     newFootnote.schoolClasses = [];
-    for (final schoolClass in jsonData["schoolClasses"] ?? <String>[]) {
+    final schoolClassesList =
+        jsonData["schoolClasses"] as List<dynamic>? ?? <String>[];
+    for (final schoolClass in schoolClassesList) {
       newFootnote.schoolClasses.add(schoolClass.toString());
     }
     newFootnote.schoolWeek = jsonData["schoolWeek"].toString();
@@ -192,13 +194,13 @@ class Cell {
     newCell.originalSubject = parsedJson["originalSubject"].toString();
     newCell.room = parsedJson["room"].toString();
     newCell.originalRoom = parsedJson["originalRoom"].toString();
-    newCell.teacher = parsedJson["teacher"].toString() ;
-    newCell.originalTeacher = parsedJson["originalTeacher"].toString() ;
+    newCell.teacher = parsedJson["teacher"].toString();
+    newCell.originalTeacher = parsedJson["originalTeacher"].toString();
     newCell.text = parsedJson["text"].toString();
     newCell.source = parsedJson["source"] as String?;
     newCell.source = parsedJson["substitutionKind"] as String?;
-    newCell.footNoteTextId = parsedJson["footNoteTextId"].toString() ;
-    final footnotes = parsedJson["footnotes"];
+    newCell.footNoteTextId = parsedJson["footNoteTextId"].toString();
+    final footnotes = parsedJson["footnotes"] as List<dynamic>?;
     if (footnotes != null) {
       newCell.footnotes = [];
       for (final footnoteJsonData in footnotes) {
@@ -217,7 +219,7 @@ class Cell {
     if (footnotes != null) {
       footnotesJsonDataList = <dynamic>[];
       for (final footnote in footnotes!) {
-          footnotesJsonDataList.add(footnote.toJsonData());
+        footnotesJsonDataList.add(footnote.toJsonData());
       }
     }
 

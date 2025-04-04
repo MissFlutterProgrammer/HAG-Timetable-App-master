@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:stundenplan/constants.dart';
 import 'package:stundenplan/content.dart';
 import 'package:stundenplan/shared_state.dart';
-
-import 'grid.dart';
+import 'package:stundenplan/widgets/grid.dart';
 
 class TimeTable extends StatelessWidget {
-  const TimeTable({/*required*/ required this.sharedState, /*required*/ required this.content});
+  const TimeTable(
+      {/*required*/ required this.sharedState,
+      /*required*/ required this.content});
 
   final SharedState sharedState;
   final Content content;
@@ -16,7 +17,7 @@ class TimeTable extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        for (int y = 0; y < sharedState.content.cells.length+1; y++)
+        for (int y = 0; y < sharedState.content.cells.length + 1; y++)
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

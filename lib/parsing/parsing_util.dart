@@ -1,10 +1,9 @@
 String customStrip(String s) {
-  return s.replaceAll(" ", "")
-      .replaceAll("\t", "")
-      .replaceAll("\n", "");
+  return s.replaceAll(" ", "").replaceAll("\t", "").replaceAll("\n", "");
 }
 
-String getCookieStringFromSetCookieHeader(String setCookieString, List<String> relevantCookies) {
+String getCookieStringFromSetCookieHeader(
+    String setCookieString, List<String> relevantCookies) {
   final cookies = setCookieString.split(";");
   final stringBuffer = StringBuffer();
   for (var cookie in cookies) {

@@ -4,12 +4,12 @@ class Profile {
   List<String> subjects = [];
   Map<String, String> calendarUrls = {};
 
-  Map getJsonData() {
-    final jsonData = {
+  Map<String, dynamic> getJsonData() {
+    final jsonData = <String, dynamic>{
       "schoolGrade": schoolGrade,
       "subSchoolClass": subSchoolClass,
       "subjects": subjects,
-      "calendarUrls" : calendarUrls
+      "calendarUrls": calendarUrls
     };
     return jsonData;
   }
@@ -20,19 +20,24 @@ class Profile {
   }
 
   // ignore: prefer_constructors_over_static_methods
-  static Profile fromJsonData(dynamic jsonData) {
+  static Profile fromJsonData(Map<String, dynamic> jsonData) {
     final newProfile = Profile();
-    newProfile.schoolGrade = jsonData["schoolGrade"].toString();
-    newProfile.subSchoolClass = jsonData["subSchoolClass"].toString();
-    for (final subject in jsonData["subjects"]) {
+    newProfile.schoolGrade = jsonData["schoolGrade"]?.toString();
+    newProfile.subSchoolClass = jsonData["subSchoolClass"]?.toString() ?? "";
+
+    final subjectsList = jsonData["subjects"] as List<dynamic>? ?? [];
+    for (final subject in subjectsList) {
       newProfile.subjects.add(subject.toString());
     }
-    if (jsonData["calendarUrls"] != null) {
+
+    final calendarUrlsMap = jsonData["calendarUrls"] as Map<String, dynamic>?;
+    if (calendarUrlsMap != null) {
       newProfile.calendarUrls = {};
-      for (final calendarUrlEntry in jsonData["calendarUrls"].entries) {
-        newProfile.calendarUrls[calendarUrlEntry.key.toString()] = calendarUrlEntry.value as String;
+      for (final entry in calendarUrlsMap.entries) {
+        newProfile.calendarUrls[entry.key] = entry.value.toString();
       }
     }
+
     return newProfile;
   }
 }

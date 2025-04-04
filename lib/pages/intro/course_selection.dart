@@ -15,8 +15,8 @@ class CourseSelectionPage extends StatefulWidget {
 }
 
 class _ClassSelectionPageState extends State<CourseSelectionPage> {
-
-  TextEditingController courseAddNameTextEditingController = TextEditingController();
+  TextEditingController courseAddNameTextEditingController =
+      TextEditingController();
   List<String> courses = [];
 
   _ClassSelectionPageState();
@@ -42,18 +42,21 @@ class _ClassSelectionPageState extends State<CourseSelectionPage> {
       sharedState: widget.sharedState,
       onPressed: () {
         saveDataToProfile();
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyApp(widget.sharedState)));
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => MyApp(widget.sharedState)));
       },
       subtitle: "Hier kannst du deine gewählten Kurse eintragen. z.B En",
       title: "Kurse",
       helpPage: "Set-Up#manuell",
       child: Column(
         children: [
-          CourseAutoCompleteAddInput(sharedState: widget.sharedState, onAdd: (courseName) {
-            setState(() {
-              courses.add(courseName);
-            });
-          }),
+          CourseAutoCompleteAddInput(
+              sharedState: widget.sharedState,
+              onAdd: (courseName) {
+                setState(() {
+                  courses.add(courseName);
+                });
+              }),
           const SizedBox(height: 20),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.42,

@@ -2,8 +2,10 @@ import 'package:flutter/foundation.dart';
 
 class Constants {
   // The current features of the installation
-  static const bool defineHasTesterFeature = bool.fromEnvironment("DEFINE_HAS_TESTER_FEATURE") || !kReleaseMode;
-  static const bool defineHasSmallFeature = bool.fromEnvironment("DEFINE_HAS_SMALL_FEATURE");
+  static const bool defineHasTesterFeature =
+      bool.fromEnvironment("DEFINE_HAS_TESTER_FEATURE") || !kReleaseMode;
+  static const bool defineHasSmallFeature =
+      bool.fromEnvironment("DEFINE_HAS_SMALL_FEATURE");
 
   // Grid Properties
   static const int width = 6;
@@ -26,7 +28,8 @@ class Constants {
   static const String loginUrlIServ = "$iServHost/iserv/login";
   static const Duration credentialExpireDuration = Duration(days: 178);
   static const Duration loginSessionExpireDuration = Duration(hours: 2);
-  static const Duration refreshSchulmanagerClassNameDuration = Duration(days: 14);
+  static const Duration refreshSchulmanagerClassNameDuration =
+      Duration(days: 14);
   // This url is used instead of loginUrlIServ, because it requires less redirects to know, if the credentials were correct.
   // It however needs additional redirects to get the actual IServ session cookies, that's why this url is only used for credential checks.
   static const String credentialCheckUrlIServ = "$iServHost/iserv/auth/login";
@@ -94,15 +97,22 @@ class Constants {
   static const bool useAGs = true;
   static const String specialClassNameAG = "AG";
   static const double randomUpdateSpecialClassesChance = 0.01; // 1%
-  static const String saveDataFileLocation = "/storage/emulated/0/Documents/stundenplan-data.save";
-  static const String saveDataFileLocationOld = "/storage/emulated/0/Android/data/stundenplan-data.save";
+  static const String saveDataFileLocation =
+      "/storage/emulated/0/Documents/stundenplan-data.save";
+  static const String saveDataFileLocationOld =
+      "/storage/emulated/0/Android/data/stundenplan-data.save";
 
-  static const String saveSnapshotFileLocation = "/storage/emulated/0/Android/data/com.example.stundenplan/files";
+  static const String saveSnapshotFileLocation =
+      "/storage/emulated/0/Android/data/com.example.stundenplan/files";
 
-  static const String schulmanagerBaseUrl = "https://login.schulmanager-online.de";
-  static const String schulmanagerOicdBaseUrl = "https://login.schulmanager-online.de/oidc";
-  static const String schulmanagerApiBaseUrl = "https://login.schulmanager-online.de/api";
+  static const String schulmanagerBaseUrl =
+      "https://login.schulmanager-online.de";
+  static const String schulmanagerOicdBaseUrl =
+      "https://login.schulmanager-online.de/oidc";
+  static const String schulmanagerApiBaseUrl =
+      "https://login.schulmanager-online.de/api";
   static const int schulmanagerSchoolId = 776;
 
-  static const String wikiBaseUrl = "https://github.com/RedstoneMedia/HAG-Timetable-App/wiki";
+  static const String wikiBaseUrl =
+      "https://github.com/RedstoneMedia/HAG-Timetable-App/wiki";
 }

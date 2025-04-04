@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stundenplan/pages/intro/course_input_method_selection.dart';
 import 'package:stundenplan/shared_state.dart';
+import 'package:stundenplan/theme.dart' as my_theme;
 import 'package:stundenplan/widgets/base_intro_screen.dart';
 import 'package:stundenplan/widgets/buttons.dart';
-import 'package:stundenplan/theme.dart' as my_theme;
 
 class ThemeSelectionPage extends StatefulWidget {
   final SharedState sharedState;
@@ -35,7 +35,8 @@ class _ClassSelectionPageState extends State<ThemeSelectionPage> {
       sharedState: widget.sharedState,
       onPressed: () {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => CourseInputMethodSelectionPage(widget.sharedState)));
+            builder: (context) =>
+                CourseInputMethodSelectionPage(widget.sharedState)));
       },
       title: "Theme",
       subtitle: "Diese App unterstützt verschiedene Themes.",
@@ -70,7 +71,8 @@ class _ClassSelectionPageState extends State<ThemeSelectionPage> {
                                     color: theme.textColor,
                                     fontWeight: FontWeight.bold),
                               ),
-                              backgroundColor: theme.backgroundColor.withAlpha(255),
+                              backgroundColor:
+                                  theme.backgroundColor.withAlpha(255),
                               content: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -79,7 +81,8 @@ class _ClassSelectionPageState extends State<ThemeSelectionPage> {
                                     textColor: theme.textColor,
                                     text: "Hintergrund",
                                     theme: widget.sharedState.theme,
-                                    borderColor: widget.sharedState.theme.textColor,
+                                    borderColor:
+                                        widget.sharedState.theme.textColor,
                                     onPicked: (color) {
                                       setState(() {
                                         widget.sharedState.theme
@@ -94,8 +97,8 @@ class _ClassSelectionPageState extends State<ThemeSelectionPage> {
                                     theme: widget.sharedState.theme,
                                     onPicked: (color) {
                                       setState(() {
-                                        widget.sharedState.theme
-                                            .textColor = color;
+                                        widget.sharedState.theme.textColor =
+                                            color;
                                       });
                                     },
                                   ),
@@ -106,8 +109,8 @@ class _ClassSelectionPageState extends State<ThemeSelectionPage> {
                                     theme: widget.sharedState.theme,
                                     onPicked: (color) {
                                       setState(() {
-                                        widget.sharedState.theme
-                                            .subjectColor = color;
+                                        widget.sharedState.theme.subjectColor =
+                                            color;
                                       });
                                     },
                                   ),

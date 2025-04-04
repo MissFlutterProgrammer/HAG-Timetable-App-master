@@ -3,12 +3,16 @@ import 'package:stundenplan/profile.dart';
 
 class ProfileManager {
   String currentProfileName = "11e";
-  LinkedHashMap<String, Profile> profiles =
-      {"11e": Profile()} as LinkedHashMap<String, Profile>;
+  late LinkedHashMap<String, Profile> profiles;
+
+  ProfileManager() {
+    profiles = LinkedHashMap<String, Profile>();
+    profiles["11e"] = Profile();
+  }
 
   Map<String, dynamic> getJsonData() {
     final jsonProfileManagerData = <String, dynamic>{};
-    final jsonProfilesData = <String, Map>{};
+    final jsonProfilesData = <String, Map<String, dynamic>>{};
     for (final profileName in profiles.keys) {
       final profile = profiles[profileName]!;
       jsonProfilesData[profileName] = profile.getJsonData();
@@ -19,15 +23,19 @@ class ProfileManager {
   }
 
   // ignore: prefer_constructors_over_static_methods
-  static ProfileManager fromJsonData(dynamic jsonProfileManagerData) {
+  static ProfileManager fromJsonData(
+      Map<String, dynamic> jsonProfileManagerData) {
     final profileManager = ProfileManager();
-    // ignore: prefer_collection_literals
     profileManager.profiles = LinkedHashMap<String, Profile>();
-    profileManager.currentProfileName = jsonProfileManagerData["currentProfileName"].toString();
-    final jsonProfilesData = jsonProfileManagerData["profiles"];
+    profileManager.currentProfileName =
+        jsonProfileManagerData["currentProfileName"].toString();
+    final jsonProfilesData =
+        jsonProfileManagerData["profiles"] as Map<String, dynamic>;
     for (final profileName in jsonProfilesData.keys) {
-      final jsonProfileData = jsonProfilesData[profileName];
-      profileManager.profiles[profileName.toString()] = Profile.fromJsonData(jsonProfileData);
+      final jsonProfileData =
+          jsonProfilesData[profileName] as Map<String, dynamic>;
+      profileManager.profiles[profileName] =
+          Profile.fromJsonData(jsonProfileData);
     }
     return profileManager;
   }
@@ -47,10 +55,11 @@ class ProfileManager {
   }
 
   void renameAllProfiles() {
-    for (final profileName in List.from(profiles.keys)) {
+    for (final profileName in List<String>.from(profiles.keys)) {
       final profile = profiles[profileName]!;
       profiles.remove(profileName);
-      final newProfileName = findNewProfileName(profile.schoolGrade == null ? profileName as String : profile.toString());
+      final newProfileName =
+          findNewProfileName(profile.schoolGrade ?? profileName);
       if (profileName == currentProfileName) {
         currentProfileName = newProfileName;
       }
@@ -69,7 +78,9 @@ class ProfileManager {
   }
 
   set schoolGrade(String? schoolGrade) {
-    currentProfile.schoolGrade = schoolGrade!;
+    if (schoolGrade != null) {
+      currentProfile.schoolGrade = schoolGrade;
+    }
   }
 
   String get subSchoolClass {
@@ -81,7 +92,11 @@ class ProfileManager {
   }
 
   String get schoolClassFullName {
-    return currentProfile.schoolGrade! + currentProfile.subSchoolClass;
+    final grade = currentProfile.schoolGrade;
+    if (grade == null) {
+      return currentProfile.subSchoolClass;
+    }
+    return grade + currentProfile.subSchoolClass;
   }
 
   List<String> get subjects {
@@ -93,6 +108,6 @@ class ProfileManager {
   }
 
   Map<String, String> get calendarUrls {
-    return currentProfile.calendarUrls;
+    return Map<String, String>.from(currentProfile.calendarUrls);
   }
 }

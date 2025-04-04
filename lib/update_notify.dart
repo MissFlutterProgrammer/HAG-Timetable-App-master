@@ -1,6 +1,7 @@
+// ignore_for_file: avoid_dynamic_calls, use_build_context_synchronously, unnecessary_async, deprecated_member_use
+
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -64,12 +65,16 @@ class UpdateNotifier {
       BuildContext context, SharedState sharedState) async {
     final newestVersion = await getNewestVersion();
     if (currentVersion.isOtherVersionGreater(newestVersion)) {
-      await showNewVersionDialog(context, sharedState, newestVersion, currentVersion);
+      await showNewVersionDialog(
+          context, sharedState, newestVersion, currentVersion);
     }
   }
 
   Future<void> showNewVersionDialog(
-      BuildContext context, SharedState sharedState, Version newVersion, Version currentVersion) async {
+      BuildContext context,
+      SharedState sharedState,
+      Version newVersion,
+      Version currentVersion) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -91,7 +96,7 @@ class UpdateNotifier {
           actions: <Widget>[
             ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
+                backgroundColor: WidgetStateProperty.all<Color>(
                   sharedState.theme.subjectColor.withOpacity(0.9),
                 ),
               ),
@@ -108,9 +113,11 @@ class UpdateNotifier {
                 ),
               ),
               onPressed: () async {
-                final newReleaseUri = Uri.parse(Constants.newestReleaseUrlPart + newVersion.toString());
+                final newReleaseUri = Uri.parse(
+                    Constants.newestReleaseUrlPart + newVersion.toString());
                 if (await canLaunchUrl(newReleaseUri)) {
-                  await launchUrl(newReleaseUri, mode: LaunchMode.externalApplication);
+                  await launchUrl(newReleaseUri,
+                      mode: LaunchMode.externalApplication);
                 }
                 Navigator.of(context).pop();
               },
@@ -124,15 +131,16 @@ class UpdateNotifier {
   }
 
   Future<String> downloadNewAPKVersion(Version newVersion) async {
-      final url = Uri.parse("${Constants.newestReleaseDownloadUrlPart}$newVersion/app-arm64-v8a-release.apk");
-      final output = await getTemporaryDirectory();
-      log("Downloading new APK to ${output.path}", name: "updater");
-      final request = await HttpClient().getUrl(url);
-      final response = await request.close();
-      final file = File("${output.path}/stundenplan.apk");
-      await response.pipe(file.openWrite());
-      log("Download done. Downloaded ${response.contentLength} bytes.", name: "updater");
-      return file.path;
+    final url = Uri.parse(
+        "${Constants.newestReleaseDownloadUrlPart}$newVersion/app-arm64-v8a-release.apk");
+    final output = await getTemporaryDirectory();
+    log("Downloading new APK to ${output.path}", name: "updater");
+    final request = await HttpClient().getUrl(url);
+    final response = await request.close();
+    final file = File("${output.path}/stundenplan.apk");
+    await response.pipe(file.openWrite());
+    log("Download done. Downloaded ${response.contentLength} bytes.",
+        name: "updater");
+    return file.path;
   }
-
 }

@@ -1,6 +1,9 @@
+// ignore_for_file: prefer_constructors_over_static_methods
+
 abstract class IntegratedValue {
   final bool save;
   IntegratedValue({required this.save});
+
   /// Modifies the current value with another value of higher precedence, any new entry's or mismatches will be overwritten by the new values data
   void merge(IntegratedValue integratedValue, String integrationName);
 
@@ -18,15 +21,21 @@ class Integrations {
 
   void registerIntegration(Integration integration) {
     for (final providedValue in integration.values.keys) {
-      final valueIntegrations = integrations.putIfAbsent(providedValue, () => <String, Integration>{});
+      final valueIntegrations = integrations.putIfAbsent(
+          providedValue, () => <String, Integration>{});
       valueIntegrations[integration.name] = integration;
     }
     initializedIntegrations[integration.name] = false;
   }
 
   Integration? getIntegrationByName(String integrationName) {
-    return integrations.entries.firstWhere((entry) => entry.value.entries.any((entry) => entry.key == integrationName))
-        .value.entries.firstWhere((entry) => entry.key == integrationName).value;
+    return integrations.entries
+        .firstWhere((entry) =>
+            entry.value.entries.any((entry) => entry.key == integrationName))
+        .value
+        .entries
+        .firstWhere((entry) => entry.key == integrationName)
+        .value;
   }
 
   void unregisterIntegration(String integrationName) {
@@ -36,7 +45,8 @@ class Integrations {
   Future<void> update({List<String> values = const []}) async {
     // Update values in integrations
     final futures = <Future>[];
-    final consideredIntegrations = integrations.entries.where((entry) => values.isEmpty || values.contains(entry.key));
+    final consideredIntegrations = integrations.entries
+        .where((entry) => values.isEmpty || values.contains(entry.key));
     for (final valueIntegrations in consideredIntegrations) {
       for (final integration in valueIntegrations.value.values) {
         // Initialize integration on first update
@@ -56,28 +66,33 @@ class Integrations {
   }
 
   Map<String, Map<String, dynamic>> saveIntegrationValuesToJson() {
-    final integrationJsonValues = <String,  Map<String, dynamic>>{};
+    final integrationJsonValues = <String, Map<String, dynamic>>{};
     for (final valueIntegrations in integrations.values) {
       for (final integration in valueIntegrations.values) {
         if (!integration.save) continue;
-        integrationJsonValues[integration.name] = integration.saveValuesToJson();
+        integrationJsonValues[integration.name] =
+            integration.saveValuesToJson();
       }
     }
     return integrationJsonValues;
   }
 
-  void loadIntegrationValuesFromJson(Map<String, dynamic> integrationJsonValues) {
+  void loadIntegrationValuesFromJson(
+      Map<String, dynamic> integrationJsonValues) {
     for (final valuesIntegrationEntry in integrationJsonValues.entries) {
       final integrationName = valuesIntegrationEntry.key;
-      final integration = integrations.values.firstWhere((valueIntegrations) => valueIntegrations.containsKey(integrationName))[integrationName];
+      final integration = integrations.values.firstWhere((valueIntegrations) =>
+          valueIntegrations.containsKey(integrationName))[integrationName];
       if (integration == null) continue;
-      integration.loadValuesFromJson(valuesIntegrationEntry.value as Map<String, dynamic>);
+      integration.loadValuesFromJson(
+          valuesIntegrationEntry.value as Map<String, dynamic>);
     }
     _cacheIntegrations(integrations.entries);
   }
 
   /// Integrate values and cache result
-  void _cacheIntegrations(Iterable<MapEntry<String, Map<String, Integration>>> valueIntegrations) {
+  void _cacheIntegrations(
+      Iterable<MapEntry<String, Map<String, Integration>>> valueIntegrations) {
     for (final e in valueIntegrations) {
       final value = _integrateValue(e.key);
       if (value != null) {
@@ -95,8 +110,10 @@ class Integrations {
       if (integrationValue == null) continue;
       currentValue ??= integrationValue;
       currentPrecedence ??= integration.precedence;
-      if (integration.precedence == currentPrecedence && currentValue != integrationValue) {
-        throw Exception("Encountered value mismatch, with equal precedence $currentPrecedence for value $valueName");
+      if (integration.precedence == currentPrecedence &&
+          currentValue != integrationValue) {
+        throw Exception(
+            "Encountered value mismatch, with equal precedence $currentPrecedence for value $valueName");
       }
       if (integration.precedence > currentPrecedence) {
         currentValue.merge(integrationValue, integration.name);
@@ -105,7 +122,6 @@ class Integrations {
     }
     return currentValue;
   }
-
 }
 
 abstract class Integration {
@@ -115,7 +131,11 @@ abstract class Integration {
   final Map<String, IntegratedValue?> values = {};
 
   /// Create a new Integration
-  Integration({required this.name, required this.save, required this.precedence, required List<String> providedValues}) {
+  Integration(
+      {required this.name,
+      required this.save,
+      required this.precedence,
+      required List<String> providedValues}) {
     for (final providedValue in providedValues) {
       values[providedValue] = null;
     }

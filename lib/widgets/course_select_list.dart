@@ -63,11 +63,13 @@ class _CourseSelectListState extends State<CourseSelectList> {
             color: widget.sharedState.theme.textColor.withAlpha(15),
             borderRadius: BorderRadius.circular(5)),
         child: ListView(
-            physics: const BouncingScrollPhysics(),
-            shrinkWrap: true,
-            children: [for (var index = 0; index < widget.courses.length; index++)
+          physics: const BouncingScrollPhysics(),
+          shrinkWrap: true,
+          children: [
+            for (var index = 0; index < widget.courses.length; index++)
               Dismissible(
-                key: ObjectKey(widget.courses[index]), // Never use a UniqueKey here
+                key: ObjectKey(
+                    widget.courses[index]), // Never use a UniqueKey here
                 background: Container(
                   color: Colors.red,
                 ),
@@ -109,7 +111,7 @@ class _CourseSelectListState extends State<CourseSelectList> {
                   ),
                 ),
               ),
-            ],
+          ],
         ),
       ),
     );

@@ -1,25 +1,23 @@
 import 'dart:convert';
-import 'dart:math' as math;
 import 'dart:developer';
+import 'dart:math' as math;
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:stundenplan/calendar_data.dart';
 import 'package:stundenplan/constants.dart';
 import 'package:stundenplan/content.dart';
 import 'package:stundenplan/helper_functions.dart';
 import 'package:stundenplan/holiday_calculator.dart';
-import 'package:stundenplan/calendar_data.dart';
+import 'package:stundenplan/integration.dart';
 import 'package:stundenplan/parsing/parse_subsitution_plan.dart';
 import 'package:stundenplan/profile_manager.dart';
 import 'package:stundenplan/theme.dart';
 
-import 'integration.dart';
-
 class SharedState {
-  SharedPreferences preferences;
-
+  final SharedPreferences preferences;
+  late Content content;
   Theme theme = darkTheme;
-  int? height = Constants.defaultHeight;
-  Content content;
+  int height = Constants.defaultHeight;
   bool sendNotifications = false;
   ProfileManager profileManager = ProfileManager();
   String? schulmanagerClassName;
@@ -30,7 +28,9 @@ class SharedState {
   bool processSpecialAGClass = true;
   bool processSpecialCourseClass = true;
 
-  SharedState(this.preferences, this.content);
+  SharedState(this.preferences, Content initialContent) {
+    content = initialContent;
+  }
 
   void saveState() {
     final saveFileData = <String, dynamic>{};
@@ -44,7 +44,8 @@ class SharedState {
     profileManager.renameAllProfiles();
     final jsonProfileManagerData = profileManager.getJsonData();
     saveFileData["jsonProfileManagerData"] = jsonProfileManagerData;
-    preferences.setString("jsonProfileManagerData", jsonEncode(jsonProfileManagerData));
+    preferences.setString(
+        "jsonProfileManagerData", jsonEncode(jsonProfileManagerData));
 
     // Notifications
     preferences.setBool("sendNotifications", sendNotifications);
@@ -56,73 +57,89 @@ class SharedState {
     // Internal flags
     saveInternalFlags();
 
-    preferences.setInt("height", height!);
+    preferences.setInt("height", height);
   }
 
-  Theme themeFromJsonData(dynamic jsonThemeData) {
+  Theme themeFromJsonData(Map<String, dynamic> jsonThemeData) {
     return Theme.fromJsonData(jsonThemeData);
   }
 
   bool loadStateAndCheckIfFirstTime({bool fromBackgroundTask = false}) {
-    final String themeDataString = preferences.getString("theme") ?? "dark";
-    height = preferences.getInt("height");
+    final themeDataString = preferences.getString("theme") ?? "dark";
+    height = preferences.getInt("height") ?? Constants.defaultHeight;
 
     // If first time using app
-    if (height == null) {
-      height = Constants.defaultHeight;
+    if (height == Constants.defaultHeight &&
+        !preferences.containsKey("height")) {
       return true;
     }
+
     // Load User flags
     sendNotifications = preferences.getBool("sendNotifications") ?? false;
     // Load Internal flags
     loadInternalFlags();
     // Register integrations
-    Integrations.instance.registerIntegration(IServUnitsSubstitutionIntegration(this));
-    Integrations.instance.registerIntegration(SchulmanagerIntegration.Schulmanager(this));
+    Integrations.instance
+        .registerIntegration(IServUnitsSubstitutionIntegration(this));
+    Integrations.instance
+        .registerIntegration(SchulmanagerIntegration.Schulmanager(this));
 
     loadSchulmangerClassName(fromBackgroundTask: fromBackgroundTask);
-    loadThemeProfileManagerFromJson(jsonDecode(themeDataString), jsonDecode(preferences.getString("jsonProfileManagerData")!));
+
+    final profileManagerData = preferences.getString("jsonProfileManagerData");
+    if (profileManagerData != null) {
+      loadThemeProfileManagerFromJson(
+          jsonDecode(themeDataString) as Map<String, dynamic>,
+          jsonDecode(profileManagerData) as Map<String, dynamic>);
+    }
     return false;
   }
 
   void loadSchulmangerClassName({bool fromBackgroundTask = false}) {
     final now = DateTime.now();
-    final lastOpened = DateTime.tryParse(preferences.getString("appLastOpened") ?? "");
-    if (lastOpened != null && !fromBackgroundTask && now.difference(lastOpened) > Constants.refreshSchulmanagerClassNameDuration) {
+    final lastOpened =
+        DateTime.tryParse(preferences.getString("appLastOpened") ?? "");
+    if (lastOpened != null &&
+        !fromBackgroundTask &&
+        now.difference(lastOpened) >
+            Constants.refreshSchulmanagerClassNameDuration) {
       preferences.remove("schulmanagerClassName");
       schulmanagerClassName = null;
       preferences.setString("appLastOpened", now.toIso8601String());
       return;
     }
-    if (!fromBackgroundTask) preferences.setString("appLastOpened", now.toIso8601String());
+    if (!fromBackgroundTask) {
+      preferences.setString("appLastOpened", now.toIso8601String());
+    }
     schulmanagerClassName = preferences.getString("schulmanagerClassName");
   }
 
   void loadInternalFlags() {
     hasChangedCourses = preferences.getBool("hasChangedCourses") ?? true;
-    processSpecialAGClass = preferences.getBool("processSpecialAGClass") ?? true;
-    processSpecialCourseClass = preferences.getBool("processSpecialCourseClass") ?? true;
+    processSpecialAGClass =
+        preferences.getBool("processSpecialAGClass") ?? true;
+    processSpecialCourseClass =
+        preferences.getBool("processSpecialCourseClass") ?? true;
     // Randomly activate hasChangedCourses to force update the special classes.
-    // This is important, since there is a very small probability that teachers accidentally remove courses or classes from the website, without the user actually chaining their courses
-    if (math.Random().nextDouble() < Constants.randomUpdateSpecialClassesChance &&
-        (!processSpecialAGClass || !processSpecialCourseClass)
-    ) {
+    if (math.Random().nextDouble() <
+            Constants.randomUpdateSpecialClassesChance &&
+        (!processSpecialAGClass || !processSpecialCourseClass)) {
       hasChangedCourses = true;
     }
   }
 
-  void loadThemeProfileManagerFromJson(dynamic themeData, dynamic jsonProfileManagerData) {
+  void loadThemeProfileManagerFromJson(Map<String, dynamic> themeData,
+      Map<String, dynamic> jsonProfileManagerData) {
     theme = Theme.fromJsonData(themeData);
     profileManager = ProfileManager.fromJsonData(jsonProfileManagerData);
   }
-
-  // Content
 
   void saveCache() {
     // Save calendar data
     preferences.setString("calendarData", jsonEncode(calendarData.toJson()));
     // Save integrations
-    preferences.setString("integrationsValues", jsonEncode(Integrations.instance.saveIntegrationValuesToJson()));
+    preferences.setString("integrationsValues",
+        jsonEncode(Integrations.instance.saveIntegrationValuesToJson()));
     // Save content
     content.updateLastUpdated();
     log("[SAVED] lastUpdated: ${content.lastUpdated}", name: "cache");
@@ -134,7 +151,8 @@ class SharedState {
 
   Future<void> saveSchulmanagerClassName() async {
     if (schulmanagerClassName != null) {
-      await preferences.setString("schulmanagerClassName", schulmanagerClassName!);
+      await preferences.setString(
+          "schulmanagerClassName", schulmanagerClassName!);
     } else {
       await preferences.remove("schulmanagerClassName");
     }
@@ -148,32 +166,39 @@ class SharedState {
 
   void loadCache() {
     // Load calendar data
-    final String calendarDataJsonString = preferences.get("calendarData").toString();
-    if (calendarDataJsonString != "") {
-      calendarData = CalendarData.fromJson(jsonDecode(calendarDataJsonString) as List<dynamic>);
+    final calendarDataJsonString = preferences.getString("calendarData");
+    if (calendarDataJsonString != null && calendarDataJsonString.isNotEmpty) {
+      calendarData = CalendarData.fromJson(
+          jsonDecode(calendarDataJsonString) as List<dynamic>);
     }
+
     // Load integrations
-    if (preferences.containsKey("integrationsValues")) {
-      Integrations.instance.loadIntegrationValuesFromJson(jsonDecode(preferences.getString("integrationsValues")!) as Map<String, dynamic>);
+    final integrationsValuesString =
+        preferences.getString("integrationsValues");
+    if (integrationsValuesString != null) {
+      Integrations.instance.loadIntegrationValuesFromJson(
+          jsonDecode(integrationsValuesString) as Map<String, dynamic>);
     }
+
     // Load content
-    final String contentJsonString = preferences.get("cachedContent").toString();
-    if (contentJsonString == "") return;
+    final contentJsonString = preferences.getString("cachedContent");
+    if (contentJsonString == null || contentJsonString.isEmpty) return;
+
     final decodedJson = jsonDecode(contentJsonString) as List<dynamic>;
     content = Content.fromJsonData(decodedJson);
     log("[LOADED] lastUpdated: ${content.lastUpdated}", name: "cache");
   }
 
-  // Theme
   void setThemeFromThemeName(String themeName) {
     theme = Theme.getThemeFromThemeName(themeName);
   }
 
-  // Default subjects
-
   List<String> get defaultSubjects {
+    final schoolGrade = profileManager.schoolGrade;
+    if (schoolGrade == null) return Constants.alwaysDefaultSubjects;
+
     for (final schoolGradeList in Constants.defaultSubjectsMap.keys) {
-      if (schoolGradeList.contains(profileManager.schoolGrade)) {
+      if (schoolGradeList.contains(schoolGrade)) {
         final defaultSubjects =
             List<String>.from(Constants.defaultSubjectsMap[schoolGradeList]!);
         defaultSubjects.addAll(Constants.alwaysDefaultSubjects);
@@ -185,21 +210,19 @@ class SharedState {
 
   List<String> get allCurrentSubjects {
     final allSubjects = profileManager.subjects.toList();
-    for (final defaultSubject in defaultSubjects) {
-      allSubjects.add(defaultSubject);
-    }
+    allSubjects.addAll(defaultSubjects);
     return allSubjects;
   }
 
-  // Snapshot
   Future<void> saveSnapshot() async {
     final snapshotData = <String, dynamic>{
-      "integrations" : Integrations.instance.saveIntegrationValuesToJson(),
-      "content" : content.toJsonData()
+      "integrations": Integrations.instance.saveIntegrationValuesToJson(),
+      "content": content.toJsonData()
     };
     final now = DateTime.now();
     final timeStampString = DateFormat("dd_MM_yyy-HH_mm_ss").format(now);
-    final saveFilePath = "${Constants.saveSnapshotFileLocation}/stundenplan_snapshot_$timeStampString.snapshot";
+    final saveFilePath =
+        "${Constants.saveSnapshotFileLocation}/stundenplan_snapshot_$timeStampString.snapshot";
     await saveToFileArchived(jsonEncode(snapshotData), saveFilePath);
   }
 }

@@ -1,3 +1,6 @@
+// ignore_for_file: deprecated_member_use
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stundenplan/constants.dart';
@@ -10,7 +13,6 @@ import 'package:stundenplan/theme.dart' as my_theme;
 import 'package:stundenplan/widgets/buttons.dart';
 import 'package:stundenplan/widgets/course_autocomplete_add_input.dart';
 import 'package:stundenplan/widgets/course_select_list.dart';
-import 'package:flutter/foundation.dart';
 import 'package:stundenplan/widgets/settings_widgets.dart';
 
 // ignore: must_be_immutable
@@ -83,7 +85,9 @@ class _SetupPageState extends State<SetupPage> {
       sharedState.profileManager.currentProfileName =
           profileName; // Change to new profile name
       sharedState.profileManager.renameAllProfiles();
-      setClassSelectionClass(sharedState.profileManager.currentProfile.schoolGrade, sharedState.profileManager.currentProfile.subSchoolClass);
+      setClassSelectionClass(
+          sharedState.profileManager.currentProfile.schoolGrade,
+          sharedState.profileManager.currentProfile.subSchoolClass);
       // Set local state variables
       this.profileName = sharedState.profileManager.currentProfileName;
       courses = sharedState.profileManager.currentProfile.subjects;
@@ -105,9 +109,12 @@ class _SetupPageState extends State<SetupPage> {
         profileName = profileKeys.last; // Set current profile to last profile
         // Update local state variables
         sharedState.profileManager.currentProfileName = profileName!;
-        setClassSelectionClass(sharedState.profileManager.currentProfile.schoolGrade!, sharedState.profileManager.currentProfile.subSchoolClass);
+        setClassSelectionClass(
+            sharedState.profileManager.currentProfile.schoolGrade,
+            sharedState.profileManager.currentProfile.subSchoolClass);
         courses = sharedState.profileManager.currentProfile.subjects;
-        sharedState.profileManager.profiles.remove(toDeleteProfileName); // Remove profile
+        sharedState.profileManager.profiles
+            .remove(toDeleteProfileName); // Remove profile
         // Force update Schulmanager class name
         widget.sharedState.schulmanagerClassName = null;
         widget.sharedState.saveSchulmanagerClassName();
@@ -117,9 +124,10 @@ class _SetupPageState extends State<SetupPage> {
 
   void addProfile() {
     if (!validateClassSelection()) return;
-    profileName = sharedState.profileManager
-        .findNewProfileName("Neues Profil"); // Get new profile placeholder name.
-    sharedState.profileManager.addProfileWithName(profileName!); // Add that new Profile to placeholder name.
+    profileName = sharedState.profileManager.findNewProfileName(
+        "Neues Profil"); // Get new profile placeholder name.
+    sharedState.profileManager.addProfileWithName(
+        profileName!); // Add that new Profile to placeholder name.
     setProfile(profileName!); // Switch to that profile
   }
 
@@ -270,11 +278,13 @@ class _SetupPageState extends State<SetupPage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: CourseAutoCompleteAddInput(sharedState: sharedState, onAdd: (courseName) {
-                        setState(() {
-                          courses.add(courseName);
-                        });
-                      }),
+                      child: CourseAutoCompleteAddInput(
+                          sharedState: sharedState,
+                          onAdd: (courseName) {
+                            setState(() {
+                              courses.add(courseName);
+                            });
+                          }),
                     ),
                     CourseSelectList(
                       sharedState,
@@ -312,9 +322,11 @@ class _SetupPageState extends State<SetupPage> {
                             Switch(
                                 splashRadius: 0,
                                 value: sendNotifications,
-                                inactiveTrackColor: sharedState.theme.subjectSubstitutionColor,
+                                inactiveTrackColor:
+                                    sharedState.theme.subjectSubstitutionColor,
                                 activeColor: sharedState.theme.subjectColor,
-                                thumbColor: MaterialStateProperty.resolveWith((states) {
+                                thumbColor:
+                                    MaterialStateProperty.resolveWith((states) {
                                   if (states.contains(MaterialState.selected)) {
                                     return sharedState.theme.subjectColor;
                                   }
@@ -324,11 +336,9 @@ class _SetupPageState extends State<SetupPage> {
                                   setState(() {
                                     sendNotifications = value;
                                   });
-                                }
-                            ),
+                                }),
                           ],
-                        )
-                    ),
+                        )),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 5.0, vertical: 4.0),
@@ -341,27 +351,30 @@ class _SetupPageState extends State<SetupPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         StandardButton(
-                          text : "Kalender Optionen",
+                          text: "Kalender Optionen",
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => CalendarSettingsPage(widget.sharedState)));
+                                builder: (context) =>
+                                    CalendarSettingsPage(widget.sharedState)));
                           },
                           sharedState: sharedState,
-                          color: sharedState.theme.subjectSubstitutionColor.withAlpha(150),
+                          color: sharedState.theme.subjectSubstitutionColor
+                              .withAlpha(150),
                           fontSize: 12,
                           size: 0.5,
                         ),
                         StandardButton(
-                          text: "IServ Login Optionen",
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => IServLoginSettingsPage(widget.sharedState)));
-                          },
-                          sharedState: sharedState,
-                          color: sharedState.theme.subjectDropOutColor.withAlpha(150),
-                          fontSize: 12,
-                          size : 0.5
-                        )
+                            text: "IServ Login Optionen",
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => IServLoginSettingsPage(
+                                      widget.sharedState)));
+                            },
+                            sharedState: sharedState,
+                            color: sharedState.theme.subjectDropOutColor
+                                .withAlpha(150),
+                            fontSize: 12,
+                            size: 0.5)
                       ],
                     ),
                     Padding(
@@ -393,10 +406,11 @@ class _SetupPageState extends State<SetupPage> {
                           value: themeName,
                           icon: const Icon(Icons.keyboard_arrow_down),
                           elevation: 16,
-                          style:
-                              TextStyle(color: sharedState.theme.invertedTextColor),
+                          style: TextStyle(
+                              color: sharedState.theme.invertedTextColor),
                           underline: Container(),
-                          dropdownColor: sharedState.theme.textColor.withAlpha(255),
+                          dropdownColor:
+                              sharedState.theme.textColor.withAlpha(255),
                           onChanged: (String? newValue) {
                             setState(() {
                               themeName = newValue!;
@@ -421,36 +435,37 @@ class _SetupPageState extends State<SetupPage> {
                     ),
                     if (themeName == "Eigenes")
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 12.0, top: 15.0, left: 90, right: 90),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
+                          padding: const EdgeInsets.only(
+                              bottom: 12.0, top: 15.0, left: 90, right: 90),
+                          child:
+                              Column(mainAxisSize: MainAxisSize.min, children: [
                             ColorPickerButton(
                               bgColor: widget.sharedState.theme.backgroundColor,
                               textColor: widget.sharedState.theme.textColor,
                               text: "Hintergrund",
                               theme: widget.sharedState.theme,
-                              borderColor: widget.sharedState.theme.textColor.withAlpha(150),
+                              borderColor: widget.sharedState.theme.textColor
+                                  .withAlpha(150),
                               padding: 6.0,
                               fontSize: 16.0,
                               onPicked: (color) {
                                 setState(() {
-                                  widget.sharedState.theme
-                                      .backgroundColor = color;
+                                  widget.sharedState.theme.backgroundColor =
+                                      color;
                                 });
                               },
                             ),
                             ColorPickerButton(
                               bgColor: widget.sharedState.theme.textColor,
-                              textColor: widget.sharedState.theme.backgroundColor,
+                              textColor:
+                                  widget.sharedState.theme.backgroundColor,
                               text: "Text",
                               theme: widget.sharedState.theme,
                               padding: 6.0,
                               fontSize: 16.0,
                               onPicked: (color) {
                                 setState(() {
-                                  widget.sharedState.theme
-                                      .textColor = color;
+                                  widget.sharedState.theme.textColor = color;
                                 });
                               },
                             ),
@@ -463,13 +478,13 @@ class _SetupPageState extends State<SetupPage> {
                               fontSize: 16.0,
                               onPicked: (color) {
                                 setState(() {
-                                  widget.sharedState.theme
-                                      .subjectColor = color;
+                                  widget.sharedState.theme.subjectColor = color;
                                 });
                               },
                             ),
                             ColorPickerButton(
-                              bgColor: widget.sharedState.theme.subjectDropOutColor,
+                              bgColor:
+                                  widget.sharedState.theme.subjectDropOutColor,
                               textColor: widget.sharedState.theme.textColor,
                               text: "Fach ausfall",
                               theme: widget.sharedState.theme,
@@ -477,13 +492,14 @@ class _SetupPageState extends State<SetupPage> {
                               fontSize: 16.0,
                               onPicked: (color) {
                                 setState(() {
-                                  widget.sharedState.theme
-                                      .subjectDropOutColor = color;
+                                  widget.sharedState.theme.subjectDropOutColor =
+                                      color;
                                 });
                               },
                             ),
                             ColorPickerButton(
-                              bgColor: widget.sharedState.theme.subjectSubstitutionColor,
+                              bgColor: widget
+                                  .sharedState.theme.subjectSubstitutionColor,
                               textColor: widget.sharedState.theme.textColor,
                               text: "Fach vertretung",
                               theme: widget.sharedState.theme,
@@ -496,16 +512,15 @@ class _SetupPageState extends State<SetupPage> {
                                 });
                               },
                             )
-                          ]
-                        )
-                      )
+                          ]))
                     else
                       Container(),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 12.0, top: 15.0),
                       child: ElevatedButton(
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(sharedState.theme.subjectColor),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              sharedState.theme.subjectColor),
                           shape: MaterialStateProperty.all<OutlinedBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12.0),
@@ -527,56 +542,64 @@ class _SetupPageState extends State<SetupPage> {
                         ),
                       ),
                     ),
-                    if (!kReleaseMode || Constants.defineHasTesterFeature) Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 5.0, vertical: 4.0),
-                          child: Divider(
-                            thickness: 2.0,
-                            color: sharedState.theme.textColor.withAlpha(200),
+                    if (!kReleaseMode || Constants.defineHasTesterFeature)
+                      Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5.0, vertical: 4.0),
+                            child: Divider(
+                              thickness: 2.0,
+                              color: sharedState.theme.textColor.withAlpha(200),
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 12.0),
-                          child: Text(
-                            "Testing",
-                            style: GoogleFonts.poppins(
-                                color: sharedState.theme.textColor.withAlpha(150),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 22.0),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 12.0),
+                            child: Text(
+                              "Testing",
+                              style: GoogleFonts.poppins(
+                                  color: sharedState.theme.textColor
+                                      .withAlpha(150),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 22.0),
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 5.0),
-                          child : StandardButton(
-                            sharedState: sharedState,
-                            text: "Show intro screen",
-                            fontSize: 9.0,
-                            textColor: sharedState.theme.textColor.withAlpha(150),
-                            fontWeight: FontWeight.normal,
-                            color: sharedState.theme.subjectDropOutColor,
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClassSelectionPage(widget.sharedState)));
-                            },
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 5.0),
+                            child: StandardButton(
+                              sharedState: sharedState,
+                              text: "Show intro screen",
+                              fontSize: 9.0,
+                              textColor:
+                                  sharedState.theme.textColor.withAlpha(150),
+                              fontWeight: FontWeight.normal,
+                              color: sharedState.theme.subjectDropOutColor,
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => ClassSelectionPage(
+                                        widget.sharedState)));
+                              },
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 5.0),
-                          child: StandardButton(
-                            sharedState: sharedState,
-                            text: "Save snapshot",
-                            fontSize: 9.0,
-                            textColor: sharedState.theme.textColor.withAlpha(150),
-                            fontWeight: FontWeight.normal,
-                            color: sharedState.theme.subjectColor.withOpacity(0.6),
-                            onPressed: () async {
-                              await sharedState.saveSnapshot();
-                            },
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 5.0),
+                            child: StandardButton(
+                              sharedState: sharedState,
+                              text: "Save snapshot",
+                              fontSize: 9.0,
+                              textColor:
+                                  sharedState.theme.textColor.withAlpha(150),
+                              fontWeight: FontWeight.normal,
+                              color: sharedState.theme.subjectColor
+                                  .withOpacity(0.6),
+                              onPressed: () async {
+                                await sharedState.saveSnapshot();
+                              },
+                            ),
                           ),
-                        ),
-                      ],
-                    ) else
+                        ],
+                      )
+                    else
                       Container(),
                   ],
                 ),

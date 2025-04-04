@@ -11,7 +11,9 @@ class LabeledTextInput extends StatefulWidget {
   final bool obscureText;
   final bool incorrect;
 
-  const LabeledTextInput(this.labelText, this.sharedState, this.outputList, this.index, {this.fontSize = 20, this.obscureText = false, this.incorrect = false});
+  const LabeledTextInput(
+      this.labelText, this.sharedState, this.outputList, this.index,
+      {this.fontSize = 20, this.obscureText = false, this.incorrect = false});
 
   @override
   _LabeledTextInputState createState() => _LabeledTextInputState();
@@ -50,7 +52,9 @@ class _LabeledTextInputState extends State<LabeledTextInput> {
           decoration: BoxDecoration(
             color: widget.sharedState.theme.textColor.withAlpha(200),
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: Colors.red, style: widget.incorrect ? BorderStyle.solid : BorderStyle.none),
+            border: Border.all(
+                color: Colors.red,
+                style: widget.incorrect ? BorderStyle.solid : BorderStyle.none),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -58,7 +62,9 @@ class _LabeledTextInputState extends State<LabeledTextInput> {
               controller: textEditingController,
               obscureText: widget.obscureText,
               decoration: const InputDecoration(border: InputBorder.none),
-              style: GoogleFonts.poppins(color: widget.sharedState.theme.invertedTextColor, fontSize: widget.fontSize),
+              style: GoogleFonts.poppins(
+                  color: widget.sharedState.theme.invertedTextColor,
+                  fontSize: widget.fontSize),
               onChanged: (text) {
                 widget.outputList[widget.index] = text;
               },

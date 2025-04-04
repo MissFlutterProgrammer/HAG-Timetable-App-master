@@ -1,6 +1,7 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:async';
 import 'dart:developer';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,17 +9,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stundenplan/constants.dart';
+import 'package:stundenplan/content.dart';
 import 'package:stundenplan/helper_functions.dart';
+import 'package:stundenplan/loading_functions.dart';
+import 'package:stundenplan/notifiy.dart';
 import 'package:stundenplan/parsing/calendar_parse.dart';
 import 'package:stundenplan/parsing/parse.dart';
 import 'package:stundenplan/shared_state.dart';
 import 'package:stundenplan/update_notify.dart';
+import 'package:stundenplan/widgets/custom_widgets.dart';
 import 'package:time_ago_provider/time_ago_provider.dart' as time_ago;
-
-import 'content.dart';
-import 'loading_functions.dart';
-import 'notifiy.dart';
-import 'widgets/custom_widgets.dart';
 
 void main() {
   // Make sure the widget fully loads before doing stuff
@@ -73,7 +73,8 @@ class _MyAppState extends State<MyApp> {
 
     // Setup the sharedState
     sharedState = widget.sharedState;
-    sharedState.content = Content(Constants.width, Constants.defaultHeight); // Temp initialize content
+    sharedState.content = Content(
+        Constants.width, Constants.defaultHeight); // Temp initialize content
 
     // Calls set state every minute to update current school hour if changed
     everyMinute = Timer.periodic(const Duration(minutes: 1), (Timer timer) {
@@ -90,10 +91,11 @@ class _MyAppState extends State<MyApp> {
       // App is opened for the firs time -> load settings from file
       await openSetupPageAndCheckForFile(sharedState, context);
     } else {
-      await tryMoveFile(Constants.saveDataFileLocationOld, Constants.saveDataFileLocation); // Legacy file location migration
+      await tryMoveFile(Constants.saveDataFileLocationOld,
+          Constants.saveDataFileLocation); // Legacy file location migration
       // Start and stop the notifications, based on, if they are enable or not
       if (sharedState.sendNotifications) {
-          await startNotificationTask();
+        await startNotificationTask();
       } else {
         await stopNotificationTask();
       }
@@ -206,21 +208,23 @@ class _MyAppState extends State<MyApp> {
                               textAlign: TextAlign.center,
                             ),
                           ),
-                          ElevatedButton(onPressed: () => {
-                            setState(() {
-                              couldLoad = true;
-                            })
-                          },
-                            style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(
-                                sharedState.theme.subjectColor.withOpacity(0.9),
+                          ElevatedButton(
+                              onPressed: () => {
+                                    setState(() {
+                                      couldLoad = true;
+                                    })
+                                  },
+                              style: ButtonStyle(
+                                backgroundColor: WidgetStateProperty.all<Color>(
+                                  sharedState.theme.subjectColor
+                                      .withOpacity(0.9),
+                                ),
                               ),
-                            ), child:
-                            Text(
-                              "Leeren/Alten Stundenplan anzeigen",
-                              style: TextStyle(color: sharedState.theme.textColor),
-                            )
-                          )
+                              child: Text(
+                                "Leeren/Alten Stundenplan anzeigen",
+                                style: TextStyle(
+                                    color: sharedState.theme.textColor),
+                              ))
                         ],
                       ),
                     )
@@ -239,10 +243,11 @@ class _MyAppState extends State<MyApp> {
                               };
                               reloadAsync().then((_) => setState(() {}));
                               // Reload calendar data
-                              loadCalendarData(sharedState).then((value) => setState(() {
-                                sharedState.calendarData = value;
-                                sharedState.saveCache();
-                              }));
+                              loadCalendarData(sharedState)
+                                  .then((value) => setState(() {
+                                        sharedState.calendarData = value;
+                                        sharedState.saveCache();
+                                      }));
                             } on TimeoutException catch (_) {
                               log("Timeout !", name: "network");
                               _refreshController.refreshFailed();

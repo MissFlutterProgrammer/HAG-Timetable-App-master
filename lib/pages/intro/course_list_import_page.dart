@@ -1,5 +1,6 @@
-import 'dart:developer';
+// ignore_for_file: no_self_assignments
 
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
@@ -12,7 +13,6 @@ import 'package:stundenplan/shared_state.dart';
 import 'package:stundenplan/widgets/base_intro_screen.dart';
 import 'package:stundenplan/widgets/course_select_list.dart';
 
-
 class CourseListImportPage extends StatefulWidget {
   final SharedState sharedState;
 
@@ -22,10 +22,10 @@ class CourseListImportPage extends StatefulWidget {
   _CourseListImportPageState createState() => _CourseListImportPageState();
 }
 
-const String introScreenCourseListImportPageSubtitle = "Mach ein Foto von deinem Stundenplan";
+const String introScreenCourseListImportPageSubtitle =
+    "Mach ein Foto von deinem Stundenplan";
 
 class _CourseListImportPageState extends State<CourseListImportPage> {
-
   final ImagePicker picker = ImagePicker();
   final textRecognizer = TextRecognizer();
   String subtitle = introScreenCourseListImportPageSubtitle;
@@ -41,8 +41,10 @@ class _CourseListImportPageState extends State<CourseListImportPage> {
 
   Future<void> getAvailableCourses() async {
     final client = Client();
-    final fullSchoolGradeName = widget.sharedState.profileManager.schoolClassFullName;
-    availableCourses = await getAllAvailableSubjects(client, fullSchoolGradeName, widget.sharedState.profileManager.schoolGrade!);
+    final fullSchoolGradeName =
+        widget.sharedState.profileManager.schoolClassFullName;
+    availableCourses = await getAllAvailableSubjects(client,
+        fullSchoolGradeName, widget.sharedState.profileManager.schoolGrade!);
   }
 
   void saveDataToProfile() {
@@ -61,11 +63,16 @@ class _CourseListImportPageState extends State<CourseListImportPage> {
     if (availableCourses.contains(courseName)) {
       return courseName;
     }
-    final closestAvailableCourseName = findClosestStringInList(availableCourses, courseName);
-    final wrongLettersCount = (getRightLettersCount(courseName, closestAvailableCourseName) - closestAvailableCourseName.length).abs();
+    final closestAvailableCourseName =
+        findClosestStringInList(availableCourses, courseName);
+    final wrongLettersCount =
+        (getRightLettersCount(courseName, closestAvailableCourseName) -
+                closestAvailableCourseName.length)
+            .abs();
     if (wrongLettersCount <= 1) {
       return closestAvailableCourseName;
     }
+    return null;
   }
 
   Future<void> scan() async {
@@ -80,11 +87,17 @@ class _CourseListImportPageState extends State<CourseListImportPage> {
       return;
     }
     final inputImage = InputImage.fromFilePath(photo.path);
-    final RecognizedText recognisedText = await textRecognizer.processImage(inputImage);
-    
+    final RecognizedText recognisedText =
+        await textRecognizer.processImage(inputImage);
 
     final headerLocations = <String, Rect>{};
-    const headerNames = ["montag", "dienstag", "mittwoch", "donnerstag", "freitag"];
+    const headerNames = [
+      "montag",
+      "dienstag",
+      "mittwoch",
+      "donnerstag",
+      "freitag"
+    ];
     final courseNamesCandidates = <String>{};
     for (final block in recognisedText.blocks) {
       final lowerCaseText = block.text.trim().toLowerCase();
@@ -104,7 +117,8 @@ class _CourseListImportPageState extends State<CourseListImportPage> {
       });
     } else {
       setState(() {
-        subtitle = "Es gab einen Fehler, probiere es bitte noch einmal.\n\nAlles, also auch die Kopfzeile mit \"Montag\" \"Dienstag\" \"Mittwoch\" usw. muss zu sehen sein.";
+        subtitle =
+            'Es gab einen Fehler, probiere es bitte noch einmal.\n\nAlles, also auch die Kopfzeile mit "Montag" "Dienstag" "Mittwoch" usw. muss zu sehen sein.';
       });
       log("Could not detect the table", name: "scan");
       setState(() {
@@ -136,7 +150,8 @@ class _CourseListImportPageState extends State<CourseListImportPage> {
         sharedState: widget.sharedState,
         onPressed: () {
           saveDataToProfile();
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyApp(widget.sharedState)));
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => MyApp(widget.sharedState)));
         },
         subtitle: subtitle,
         title: "Scanen",
@@ -146,38 +161,43 @@ class _CourseListImportPageState extends State<CourseListImportPage> {
           children: [
             ElevatedButton(
               style: ButtonStyle(
-                padding: MaterialStateProperty.all(const EdgeInsets.all(10.0)),
-                backgroundColor: MaterialStateProperty.all<Color>(widget.sharedState.theme.subjectColor),
-                shape: MaterialStateProperty.all<OutlinedBorder>(
+                padding: WidgetStateProperty.all(const EdgeInsets.all(10.0)),
+                backgroundColor: WidgetStateProperty.all<Color>(
+                    widget.sharedState.theme.subjectColor),
+                shape: WidgetStateProperty.all<OutlinedBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                 ),
               ),
               onPressed: !loading ? scan : () {},
-              child: loading ? CircularProgressIndicator(color: widget.sharedState.theme.textColor,) : Text(
-                courses.isNotEmpty ? "Neues Foto Machen" : "Foto Machen",
-                style: GoogleFonts.poppins(
-                  color: widget.sharedState.theme.textColor,
-                  fontSize: 26.0,
-                  fontWeight: FontWeight.bold
-                )
-              ),
+              child: loading
+                  ? CircularProgressIndicator(
+                      color: widget.sharedState.theme.textColor,
+                    )
+                  : Text(
+                      courses.isNotEmpty ? "Neues Foto Machen" : "Foto Machen",
+                      style: GoogleFonts.poppins(
+                          color: widget.sharedState.theme.textColor,
+                          fontSize: 26.0,
+                          fontWeight: FontWeight.bold)),
             ),
             const SizedBox(height: 15),
-            if (courses.isNotEmpty) SizedBox(
-              height: MediaQuery.of(context).size.height * 0.42,
-              child: ListView(
-                children: [
-                  CourseSelectList(
-                    widget.sharedState,
-                    courses,
-                  ),
-                ],
-              ),
-            ) else Container(),
+            if (courses.isNotEmpty)
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.42,
+                child: ListView(
+                  children: [
+                    CourseSelectList(
+                      widget.sharedState,
+                      courses,
+                    ),
+                  ],
+                ),
+              )
+            else
+              Container(),
           ],
-        )
-    );
+        ));
   }
 }
