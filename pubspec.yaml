@@ -1,51 +1,51 @@
 name: stundenplan
 description: Stundenplan app für das HAG
 
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.8.8+1
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
+  archive: ^4.0.5
+  clock: ^1.1.2
+  collection: ^1.19.1
   connectivity_plus: ^6.1.3
+  cookie_jar: ^4.0.8
+  device_info_plus: ^9.1.1
   flutter_colorpicker: ^1.1.0
   flutter_launcher_icons: ^0.14.3
+  flutter_local_notifications: ^16.2.0
+  flutter_secure_storage: ^9.0.0
   google_fonts: ^6.2.1
+  google_mlkit_text_recognition: ^0.15.0
   html: ^0.15.5
   http: ^1.3.0
+  icalendar_parser: ^2.1.0
+  image_picker: ^1.1.2
   intl: ^0.18.1
   package_info_plus: ^8.3.0
   path_provider: ^2.1.5
   permission_handler: ^11.4.0
   pull_to_refresh_flutter3: ^2.0.2
+  rrule: ^0.2.14
   shared_preferences: ^2.5.3
   time_ago_provider: ^4.2.0
   tuple: ^2.0.2
-  url_launcher: ^6.2.1
-  yaml: ^3.1.2
-  icalendar_parser: ^2.1.0
-  image_picker: ^1.1.2
-  cookie_jar: ^4.0.8
-  flutter_secure_storage: ^9.0.0
-  rrule: ^0.2.14
+  url_launcher: ^6.3.1
   workmanager: ^0.5.2
-  flutter_local_notifications: ^16.2.0
-  device_info_plus: ^9.1.1
-  google_mlkit_text_recognition: ^0.15.0
-  collection: ^1.19.1
-  clock: ^1.1.2
-  archive: ^4.0.5
+  yaml: ^3.1.3
 
 flutter_icons:
   android: "launcher_icon"
   ios: true
   image_path: "icon.png"
-  adaptive_icon_foreground : "adaptive_icon_foreground.png"
-  adaptive_icon_background : "adaptive_icon_background.png"
+  adaptive_icon_foreground: "adaptive_icon_foreground.png"
+  adaptive_icon_background: "adaptive_icon_background.png"
 
 dev_dependencies:
   lint: ^2.8.0
