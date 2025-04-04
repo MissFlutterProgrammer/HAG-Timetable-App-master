@@ -9,7 +9,9 @@ import 'package:stundenplan/widgets/settings_widgets.dart';
 class ClassSelectionPage extends StatefulWidget {
   final SharedState sharedState;
 
-  const ClassSelectionPage(this.sharedState);
+  const ClassSelectionPage(
+    this.sharedState,
+  );
 
   @override
   _ClassSelectionPageState createState() => _ClassSelectionPageState();
@@ -29,7 +31,9 @@ class _ClassSelectionPageState extends State<ClassSelectionPage> {
             widget.sharedState.saveState();
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => ThemeSelectionPage(widget.sharedState),
+                builder: (context) => ThemeSelectionPage(
+                  widget.sharedState,
+                ),
               ),
             );
           }

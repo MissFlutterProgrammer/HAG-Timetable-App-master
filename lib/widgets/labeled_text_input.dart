@@ -45,7 +45,7 @@ class _LabeledTextInputState extends State<LabeledTextInput> {
           widget.labelText,
           style: GoogleFonts.poppins(
             color: widget.sharedState.theme.textColor,
-            fontSize: 20.0,
+            fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -54,15 +54,18 @@ class _LabeledTextInputState extends State<LabeledTextInput> {
             color: widget.sharedState.theme.textColor.withAlpha(200),
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-                color: Colors.red,
-                style: widget.incorrect ? BorderStyle.solid : BorderStyle.none),
+              color: Colors.red,
+              style: widget.incorrect ? BorderStyle.solid : BorderStyle.none,
+            ),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: TextField(
               controller: textEditingController,
               obscureText: widget.obscureText,
-              decoration: const InputDecoration(border: InputBorder.none),
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+              ),
               style: GoogleFonts.poppins(
                   color: widget.sharedState.theme.invertedTextColor,
                   fontSize: widget.fontSize),

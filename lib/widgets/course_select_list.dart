@@ -57,7 +57,7 @@ class _CourseSelectListState extends State<CourseSelectList> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8),
       child: Container(
         decoration: BoxDecoration(
             color: widget.sharedState.theme.textColor.withAlpha(15),
@@ -69,7 +69,8 @@ class _CourseSelectListState extends State<CourseSelectList> {
             for (var index = 0; index < widget.courses.length; index++)
               Dismissible(
                 key: ObjectKey(
-                    widget.courses[index]), // Never use a UniqueKey here
+                  widget.courses[index],
+                ), // Never use a UniqueKey here
                 background: Container(
                   color: Colors.red,
                 ),
@@ -82,7 +83,7 @@ class _CourseSelectListState extends State<CourseSelectList> {
                   });
                 },
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8),
                   child: Column(
                     children: [
                       Center(
@@ -94,7 +95,8 @@ class _CourseSelectListState extends State<CourseSelectList> {
                             ),
                             border: OutlineInputBorder(
                               borderSide: BorderSide(
-                                  color: widget.sharedState.theme.textColor),
+                                color: widget.sharedState.theme.textColor,
+                              ),
                             ),
                           ),
                           onChanged: (text) {
@@ -103,8 +105,9 @@ class _CourseSelectListState extends State<CourseSelectList> {
                           },
                           controller: controllers[index],
                           style: GoogleFonts.poppins(
-                              color: widget.sharedState.theme.textColor,
-                              fontSize: 25),
+                            color: widget.sharedState.theme.textColor,
+                            fontSize: 25,
+                          ),
                         ),
                       ),
                     ],

@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:stundenplan/calendar_data.dart';
 import 'package:stundenplan/shared_state.dart';
 
-Future<void> showCalenderInfoDialog(List<CalendarDataPoint> dataPoints,
-    BuildContext context, SharedState sharedState) async {
+Future<void> showCalenderInfoDialog(
+  List<CalendarDataPoint> dataPoints,
+  BuildContext context,
+  SharedState sharedState,
+) async {
   return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -13,7 +16,9 @@ Future<void> showCalenderInfoDialog(List<CalendarDataPoint> dataPoints,
           backgroundColor: sharedState.theme.backgroundColor,
           title: Text(
             'Kalender Infos',
-            style: TextStyle(color: sharedState.theme.textColor),
+            style: TextStyle(
+              color: sharedState.theme.textColor,
+            ),
           ),
           content: SingleChildScrollView(
             child: SizedBox(
@@ -53,34 +58,22 @@ Future<void> showCalenderInfoDialog(List<CalendarDataPoint> dataPoints,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
-                            child: Text("Name:",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    color: sharedState.theme.textColor)),
+                            child: Text(
+                              "Name:",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                color: sharedState.theme.textColor,
+                              ),
+                            ),
                           ),
                           Expanded(
-                            child: Text(dataPoint.name,
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                    color: sharedState.theme.textColor)),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text("Typ:",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    color: sharedState.theme.textColor)),
-                          ),
-                          Expanded(
-                            child: Text(dataPoint.calendarType.name(),
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                    color: sharedState.theme.textColor)),
+                            child: Text(
+                              dataPoint.name,
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                color: sharedState.theme.textColor,
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -89,16 +82,46 @@ Future<void> showCalenderInfoDialog(List<CalendarDataPoint> dataPoints,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
-                            child: Text("Zeit:",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    color: sharedState.theme.textColor)),
+                            child: Text(
+                              "Typ:",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                color: sharedState.theme.textColor,
+                              ),
+                            ),
                           ),
                           Expanded(
-                            child: Text(timeString,
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                    color: sharedState.theme.textColor)),
+                            child: Text(
+                              dataPoint.calendarType.name(),
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                color: sharedState.theme.textColor,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "Zeit:",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                color: sharedState.theme.textColor,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              timeString,
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                color: sharedState.theme.textColor,
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -118,9 +141,12 @@ Future<void> showCalenderInfoDialog(List<CalendarDataPoint> dataPoints,
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Schließen',
-                  style: TextStyle(
-                      color: sharedState.theme.subjectSubstitutionColor)),
+              child: Text(
+                'Schließen',
+                style: TextStyle(
+                  color: sharedState.theme.subjectSubstitutionColor,
+                ),
+              ),
             ),
           ],
         );

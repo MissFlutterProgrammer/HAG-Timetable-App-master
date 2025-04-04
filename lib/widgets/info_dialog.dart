@@ -37,7 +37,9 @@ class InfoProperty extends StatelessWidget {
             child: Text("$name:",
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                    fontSize: 17, color: sharedState.theme.textColor)),
+                  fontSize: 17,
+                  color: sharedState.theme.textColor,
+                )),
           ),
           Flexible(
             child: Text(
@@ -48,7 +50,9 @@ class InfoProperty extends StatelessWidget {
                     : value.toString(),
                 textAlign: TextAlign.right,
                 style: TextStyle(
-                    fontSize: 17, color: sharedState.theme.textColor)),
+                  fontSize: 17,
+                  color: sharedState.theme.textColor,
+                )),
           )
         ],
       );
@@ -59,7 +63,10 @@ class InfoProperty extends StatelessWidget {
 }
 
 Future<void> showInfoDialog(
-    Cell cell, BuildContext context, SharedState sharedState) async {
+  Cell cell,
+  BuildContext context,
+  SharedState sharedState,
+) async {
   final showFootnotes = cell.footnotes != null && cell.footnotes!.length > 1;
 
   return showDialog<void>(
@@ -69,7 +76,9 @@ Future<void> showInfoDialog(
         backgroundColor: sharedState.theme.backgroundColor,
         title: Text(
           'Informationen',
-          style: TextStyle(color: sharedState.theme.textColor),
+          style: TextStyle(
+            color: sharedState.theme.textColor,
+          ),
         ),
         content: SingleChildScrollView(
           child: showFootnotes
@@ -82,14 +91,26 @@ Future<void> showInfoDialog(
                     itemBuilder: (_, i) {
                       return Column(
                         children: [
-                          InfoProperty(cell.footnotes![i].subject,
-                              name: "Fach", sharedState: sharedState),
-                          InfoProperty(cell.footnotes![i].room,
-                              name: "Raum", sharedState: sharedState),
-                          InfoProperty(cell.footnotes![i].teacher,
-                              name: "Lehrer", sharedState: sharedState),
-                          InfoProperty(cell.footnotes![i].text,
-                              name: "Text", sharedState: sharedState),
+                          InfoProperty(
+                            cell.footnotes![i].subject,
+                            name: "Fach",
+                            sharedState: sharedState,
+                          ),
+                          InfoProperty(
+                            cell.footnotes![i].room,
+                            name: "Raum",
+                            sharedState: sharedState,
+                          ),
+                          InfoProperty(
+                            cell.footnotes![i].teacher,
+                            name: "Lehrer",
+                            sharedState: sharedState,
+                          ),
+                          InfoProperty(
+                            cell.footnotes![i].text,
+                            name: "Text",
+                            sharedState: sharedState,
+                          ),
                           const Divider(),
                         ],
                       );
@@ -101,36 +122,69 @@ Future<void> showInfoDialog(
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        InfoProperty(cell.originalSubject,
-                            name: "Orginal-Fach", sharedState: sharedState),
-                        InfoProperty(cell.subject,
-                            name: "Fach", sharedState: sharedState),
-                        InfoProperty(cell.originalRoom,
-                            name: "Orginal-Raum", sharedState: sharedState),
-                        InfoProperty(cell.room,
-                            name: "Raum", sharedState: sharedState),
-                        InfoProperty(cell.originalTeacher,
-                            name: "Orginal-Lehrer", sharedState: sharedState),
-                        InfoProperty(cell.teacher,
-                            name: "Lehrer", sharedState: sharedState),
-                        InfoProperty(cell.isDropped,
-                            name: "Entfall", sharedState: sharedState),
+                        InfoProperty(
+                          cell.originalSubject,
+                          name: "Orginal-Fach",
+                          sharedState: sharedState,
+                        ),
+                        InfoProperty(
+                          cell.subject,
+                          name: "Fach",
+                          sharedState: sharedState,
+                        ),
+                        InfoProperty(
+                          cell.originalRoom,
+                          name: "Orginal-Raum",
+                          sharedState: sharedState,
+                        ),
+                        InfoProperty(
+                          cell.room,
+                          name: "Raum",
+                          sharedState: sharedState,
+                        ),
+                        InfoProperty(
+                          cell.originalTeacher,
+                          name: "Orginal-Lehrer",
+                          sharedState: sharedState,
+                        ),
+                        InfoProperty(
+                          cell.teacher,
+                          name: "Lehrer",
+                          sharedState: sharedState,
+                        ),
+                        InfoProperty(
+                          cell.isDropped,
+                          name: "Entfall",
+                          sharedState: sharedState,
+                        ),
                         if (cell.isDropped || cell.isSubstitute)
-                          InfoProperty(cell.text,
-                              name: "Text", sharedState: sharedState)
+                          InfoProperty(
+                            cell.text,
+                            name: "Text",
+                            sharedState: sharedState,
+                          )
                         else if (cell.footnotes == null)
                           Container()
                         else
-                          InfoProperty(cell.footnotes![0].text,
-                              name: "Text", sharedState: sharedState),
+                          InfoProperty(
+                            cell.footnotes![0].text,
+                            name: "Text",
+                            sharedState: sharedState,
+                          ),
                         if (!cell.isDropped &&
                             cell.substitutionKind != "Entfall")
-                          InfoProperty(cell.substitutionKind,
-                              name: "Art", sharedState: sharedState)
+                          InfoProperty(
+                            cell.substitutionKind,
+                            name: "Art",
+                            sharedState: sharedState,
+                          )
                         else
                           Container(),
-                        InfoProperty(cell.source,
-                            name: "Quelle", sharedState: sharedState)
+                        InfoProperty(
+                          cell.source,
+                          name: "Quelle",
+                          sharedState: sharedState,
+                        )
                       ],
                     ),
                   ],
@@ -143,7 +197,8 @@ Future<void> showInfoDialog(
             },
             child: Text('Schließen',
                 style: TextStyle(
-                    color: sharedState.theme.subjectSubstitutionColor)),
+                  color: sharedState.theme.subjectSubstitutionColor,
+                )),
           ),
         ],
       );

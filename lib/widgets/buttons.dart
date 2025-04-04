@@ -29,13 +29,13 @@ class SelectableButton extends StatelessWidget {
     return FractionallySizedBox(
       widthFactor: 1.0,
       child: Container(
-        height: 90.0,
+        height: 90,
         decoration: BoxDecoration(
           border: Border.all(
             color: isSelected ? selectedBorderColor : borderColor,
             width: isSelected ? 4.0 : 1.0,
           ),
-          borderRadius: BorderRadius.circular(12.0),
+          borderRadius: BorderRadius.circular(12),
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(isSelected ? 7.0 : 11.0),
@@ -44,7 +44,7 @@ class SelectableButton extends StatelessWidget {
             child: InkWell(
               onTap: onPressed,
               child: Padding(
-                padding: EdgeInsets.all(isSelected ? 0.0 : 3.0),
+                padding: EdgeInsets.all(isSelected ? 0 : 3.0),
                 child: child,
               ),
             ),
@@ -77,7 +77,7 @@ class _ThemeButtonState extends State<ThemeButton> {
       selectedBorderColor: widget.theme.subjectColor,
       isSelected: widget.isSelected,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -86,7 +86,7 @@ class _ThemeButtonState extends State<ThemeButton> {
               style: TextStyle(
                   color: widget.theme.textColor,
                   fontWeight: FontWeight.bold,
-                  fontSize: 40.0),
+                  fontSize: 40),
             ),
             _ThemeSquare(widget.theme),
           ],
@@ -116,7 +116,9 @@ class _ThemeSquare extends StatelessWidget {
         Expanded(
           child: Row(
             children: [
-              _ColoredSquare(theme.textColor),
+              _ColoredSquare(
+                theme.textColor,
+              ),
               _ColoredSquare(theme.subjectDropOutColor),
             ],
           ),
@@ -136,10 +138,10 @@ class _ColoredSquare extends StatelessWidget {
     return AspectRatio(
       aspectRatio: 1,
       child: Padding(
-        padding: const EdgeInsets.all(2.0),
+        padding: const EdgeInsets.all(2),
         child: Container(
           decoration: BoxDecoration(
-              color: color, borderRadius: BorderRadius.circular(8.0)),
+              color: color, borderRadius: BorderRadius.circular(8)),
           height: double.infinity,
         ),
       ),
@@ -148,15 +150,16 @@ class _ColoredSquare extends StatelessWidget {
 }
 
 class ColorPickerButton extends StatefulWidget {
-  ColorPickerButton(
-      {required this.text,
-      required this.bgColor,
-      required this.textColor,
-      required this.onPicked,
-      required this.theme,
-      this.borderColor,
-      this.padding = 12.0,
-      this.fontSize = 20.0});
+  ColorPickerButton({
+    required this.text,
+    required this.bgColor,
+    required this.textColor,
+    required this.onPicked,
+    required this.theme,
+    this.borderColor,
+    this.padding = 12,
+    this.fontSize = 20,
+  });
 
   final String text;
   Color bgColor;
@@ -175,9 +178,9 @@ class _ColorPickerButtonState extends State<ColorPickerButton> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(8),
         child: InkWell(
           onTap: () {
             showDialog(
@@ -201,8 +204,8 @@ class _ColorPickerButtonState extends State<ColorPickerButton> {
                           });
                         },
                         pickerAreaBorderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(2.0),
-                          topRight: Radius.circular(2.0),
+                          topLeft: Radius.circular(2),
+                          topRight: Radius.circular(2),
                         ),
                       ),
                     ),
@@ -214,9 +217,10 @@ class _ColorPickerButtonState extends State<ColorPickerButton> {
                         child: Text(
                           "Fertig",
                           style: GoogleFonts.poppins(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.0),
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
                         ),
                       ),
                     ],
@@ -228,14 +232,15 @@ class _ColorPickerButtonState extends State<ColorPickerButton> {
             decoration: BoxDecoration(
               color: widget.bgColor,
               border: Border.all(
-                  color: widget.borderColor != null
-                      ? widget.borderColor!
-                      : widget.theme.textColor.withAlpha(150),
-                  style: widget.bgColor.withAlpha(255) ==
-                          widget.theme.backgroundColor.withAlpha(255)
-                      ? BorderStyle.solid
-                      : BorderStyle.none),
-              borderRadius: BorderRadius.circular(8.0),
+                color: widget.borderColor != null
+                    ? widget.borderColor!
+                    : widget.theme.textColor.withAlpha(150),
+                style: widget.bgColor.withAlpha(255) ==
+                        widget.theme.backgroundColor.withAlpha(255)
+                    ? BorderStyle.solid
+                    : BorderStyle.none,
+              ),
+              borderRadius: BorderRadius.circular(8),
             ),
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: widget.padding),
@@ -245,7 +250,9 @@ class _ColorPickerButtonState extends State<ColorPickerButton> {
                 style: GoogleFonts.poppins(
                   color: widget.textColor.withAlpha(255) ==
                           widget.bgColor.withAlpha(255)
-                      ? my_theme.Theme.invertColor(widget.textColor)
+                      ? my_theme.Theme.invertColor(
+                          widget.textColor,
+                        )
                       : widget.textColor,
                   fontSize: widget.fontSize,
                 ),
@@ -269,16 +276,17 @@ class StandardButton extends StatelessWidget {
   final double size;
   final bool disabled;
 
-  const StandardButton(
-      {required this.text,
-      required this.onPressed,
-      required this.sharedState,
-      required this.color,
-      this.fontSize = 20,
-      this.fontWeight = FontWeight.bold,
-      this.textColor,
-      this.size = 1,
-      this.disabled = false});
+  const StandardButton({
+    required this.text,
+    required this.onPressed,
+    required this.sharedState,
+    required this.color,
+    this.fontSize = 20,
+    this.fontWeight = FontWeight.bold,
+    this.textColor,
+    this.size = 1,
+    this.disabled = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -286,22 +294,26 @@ class StandardButton extends StatelessWidget {
       onPressed: disabled ? null : onPressed,
       style: ButtonStyle(
         shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5.0),
-        )),
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+        ),
         backgroundColor: WidgetStateProperty.all<Color>(
           color,
         ),
       ),
       child: Padding(
-        padding:
-            EdgeInsets.symmetric(vertical: 6.0 * size, horizontal: 10.0 * size),
+        padding: EdgeInsets.symmetric(
+          vertical: 6.0 * size,
+          horizontal: 10 * size,
+        ),
         child: Text(
           text,
           style: GoogleFonts.poppins(
-              color: textColor ?? sharedState.theme.textColor,
-              fontWeight: fontWeight,
-              fontSize: fontSize),
+            color: textColor ?? sharedState.theme.textColor,
+            fontWeight: fontWeight,
+            fontSize: fontSize,
+          ),
         ),
       ),
     );
@@ -330,7 +342,7 @@ class HelpButton extends StatelessWidget {
         child: Icon(
           Icons.help_outline_sharp,
           color: sharedState.theme.backgroundColor,
-          size: 25.0,
+          size: 25,
         ),
       ),
     );

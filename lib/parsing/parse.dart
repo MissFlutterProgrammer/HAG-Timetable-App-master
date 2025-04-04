@@ -9,7 +9,9 @@ import 'package:stundenplan/parsing/parse_timetable.dart';
 import 'package:stundenplan/shared_state.dart';
 import 'package:tuple/tuple.dart';
 
-List<String> getRelevantSchoolClasses(SharedState sharedState) {
+List<String> getRelevantSchoolClasses(
+  SharedState sharedState,
+) {
   final classes = [sharedState.profileManager.schoolClassFullName];
   if (!Constants.displayFullHeightSchoolGrades
           .contains(sharedState.profileManager.schoolGrade) &&
@@ -24,10 +26,14 @@ List<String> getRelevantSchoolClasses(SharedState sharedState) {
   return classes;
 }
 
-Future<void> parsePlans(SharedState sharedState) async {
+Future<void> parsePlans(
+  SharedState sharedState,
+) async {
   var content = Content(Constants.width, sharedState.height);
   final client = Client();
-  final schoolClasses = getRelevantSchoolClasses(sharedState);
+  final schoolClasses = getRelevantSchoolClasses(
+    sharedState,
+  );
   final List<String> mainAvailableSubjects = [];
   final List<Tuple2<List<dom.Element>, String>> classesTimeTables = [];
   List<String>? agAvailableClassSubjects;

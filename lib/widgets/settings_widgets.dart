@@ -130,16 +130,20 @@ class _ClassSelectState extends State<ClassSelect> {
   Widget build(BuildContext context) {
     final children = [
       Padding(
-        padding: widget.vertical ? EdgeInsets.zero : const EdgeInsets.all(12.0),
+        padding: widget.vertical ? EdgeInsets.zero : const EdgeInsets.all(12),
         child: Container(
           decoration: BoxDecoration(
-              color: sharedState.theme.textColor.withAlpha(200),
-              borderRadius: BorderRadius.circular(15),
-              border: Border.all(
-                  color: schoolClassIsCorrect ? Colors.transparent : Colors.red,
-                  width: schoolClassIsCorrect ? 0 : 2.0)),
+            color: sharedState.theme.textColor.withAlpha(200),
+            borderRadius: BorderRadius.circular(15),
+            border: Border.all(
+              color: schoolClassIsCorrect ? Colors.transparent : Colors.red,
+              width: schoolClassIsCorrect ? 0 : 2,
+            ),
+          ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 15,
+            ),
             child: DropdownButton<String>(
               itemHeight: widget.vertical ? 58 : null,
               isExpanded: widget.vertical,
@@ -148,8 +152,9 @@ class _ClassSelectState extends State<ClassSelect> {
               elevation: 16,
               dropdownColor: sharedState.theme.textColor.withAlpha(255),
               style: TextStyle(
-                  color: sharedState.theme.invertedTextColor,
-                  fontSize: widget.vertical ? 30 : 16),
+                color: sharedState.theme.invertedTextColor,
+                fontSize: widget.vertical ? 30 : 16,
+              ),
               underline: Container(),
               onChanged: (String? newValue) {
                 setSchoolGrade(newValue);
@@ -158,11 +163,12 @@ class _ClassSelectState extends State<ClassSelect> {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 16.0),
+                    padding: const EdgeInsets.only(right: 16),
                     child: Text(
                       value,
                       style: GoogleFonts.poppins(
-                          fontSize: widget.vertical ? 30 : 16),
+                        fontSize: widget.vertical ? 30 : 16,
+                      ),
                     ),
                   ),
                 );
@@ -180,11 +186,12 @@ class _ClassSelectState extends State<ClassSelect> {
               : sharedState.theme.textColor.withAlpha(100),
           borderRadius: BorderRadius.circular(15),
           border: Border.all(
-              color: subSchoolClassIsCorrect ? Colors.transparent : Colors.red,
-              width: subSchoolClassIsCorrect ? 0 : 2.0),
+            color: subSchoolClassIsCorrect ? Colors.transparent : Colors.red,
+            width: subSchoolClassIsCorrect ? 0 : 2,
+          ),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: SizedBox(
             height: widget.vertical ? 58 : null,
             child: TextField(
@@ -207,6 +214,9 @@ class _ClassSelectState extends State<ClassSelect> {
     ];
     return widget.vertical
         ? SizedBox(width: 140, child: Column(children: children))
-        : Row(mainAxisAlignment: MainAxisAlignment.center, children: children);
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: children,
+          );
   }
 }

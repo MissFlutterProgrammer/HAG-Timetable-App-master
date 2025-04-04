@@ -25,9 +25,10 @@ class _CourseAutoCompleteAddInput extends State<CourseAutoCompleteAddInput> {
   Future<void> setOptions() async {
     final client = Client();
     options = await getAllAvailableSubjects(
-        client,
-        widget.sharedState.profileManager.schoolClassFullName,
-        widget.sharedState.profileManager.schoolGrade!);
+      client,
+      widget.sharedState.profileManager.schoolClassFullName,
+      widget.sharedState.profileManager.schoolGrade!,
+    );
   }
 
   @override
@@ -47,10 +48,11 @@ class _CourseAutoCompleteAddInput extends State<CourseAutoCompleteAddInput> {
             child: Container(
               height: 60 + 12,
               decoration: BoxDecoration(
-                  color: widget.sharedState.theme.textColor.withAlpha(200),
-                  borderRadius: BorderRadius.circular(15)),
+                color: widget.sharedState.theme.textColor.withAlpha(200),
+                borderRadius: BorderRadius.circular(15),
+              ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Autocomplete<String>(
                   optionsBuilder: (TextEditingValue textEditingValue) {
                     if (textEditingValue.text == '') {
@@ -70,10 +72,13 @@ class _CourseAutoCompleteAddInput extends State<CourseAutoCompleteAddInput> {
                       controller: fieldTextEditingController,
                       focusNode: fieldFocusNode,
                       decoration: const InputDecoration(
-                          border: InputBorder.none, hintText: "En"),
+                        border: InputBorder.none,
+                        hintText: "En",
+                      ),
                       style: GoogleFonts.poppins(
-                          color: widget.sharedState.theme.invertedTextColor,
-                          fontSize: 30.0),
+                        color: widget.sharedState.theme.invertedTextColor,
+                        fontSize: 30,
+                      ),
                     );
                   },
                   optionsViewBuilder: (BuildContext context,
@@ -103,9 +108,10 @@ class _CourseAutoCompleteAddInput extends State<CourseAutoCompleteAddInput> {
                                   title: Text(
                                     option,
                                     style: GoogleFonts.poppins(
-                                        color: widget.sharedState.theme
-                                            .invertedTextColor,
-                                        fontSize: 20.0),
+                                      color: widget
+                                          .sharedState.theme.invertedTextColor,
+                                      fontSize: 20,
+                                    ),
                                   ),
                                 ),
                               );

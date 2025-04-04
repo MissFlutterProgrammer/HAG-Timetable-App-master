@@ -123,8 +123,9 @@ class IServUnitsSubstitutionIntegration extends Integration {
   final Map<String, String> lastResponses = {};
   bool loadCheckWeekDay = true;
 
-  IServUnitsSubstitutionIntegration(this.sharedState)
-      : super(
+  IServUnitsSubstitutionIntegration(
+    this.sharedState,
+  ) : super(
             name: "IServ",
             save: true,
             precedence: 0,
@@ -138,7 +139,9 @@ class IServUnitsSubstitutionIntegration extends Integration {
   @override
   Future<void> update() async {
     final weekSubstitutions = values["substitutions"]! as WeekSubstitutions;
-    final schoolClasses = getRelevantSchoolClasses(sharedState);
+    final schoolClasses = getRelevantSchoolClasses(
+      sharedState,
+    );
     if (Constants.defineHasTesterFeature) lastResponses.clear();
     // Get substitutions for each class and write it to week substitutions
     for (final schoolClassName in schoolClasses) {
@@ -332,8 +335,9 @@ class SchulmanagerIntegration extends Integration {
   bool loadCheckWeekDay = true;
   dynamic lastResponse;
 
-  SchulmanagerIntegration.Schulmanager(this.sharedState)
-      : super(
+  SchulmanagerIntegration.Schulmanager(
+    this.sharedState,
+  ) : super(
             name: "Schulmanager",
             save: true,
             precedence: 1,

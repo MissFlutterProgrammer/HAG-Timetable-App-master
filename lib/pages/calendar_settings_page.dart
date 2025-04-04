@@ -12,7 +12,9 @@ import 'package:stundenplan/widgets/labeled_text_input.dart';
 class CalendarSettingsPage extends StatefulWidget {
   SharedState sharedState;
 
-  CalendarSettingsPage(this.sharedState);
+  CalendarSettingsPage(
+    this.sharedState,
+  );
 
   @override
   _CalendarSettingsPageState createState() => _CalendarSettingsPageState();
@@ -26,9 +28,11 @@ class _CalendarSettingsPageState extends State<CalendarSettingsPage> {
   @override
   void initState() {
     super.initState();
-    areIServCredentialsSet().then((value) => setState(() {
-          areCredentialsAvailable = value;
-        }));
+    areIServCredentialsSet().then(
+      (value) => setState(() {
+        areCredentialsAvailable = value;
+      }),
+    );
     sharedState = widget.sharedState;
     for (final calendarType in pluginCalendarTypes) {
       final currentUrl =

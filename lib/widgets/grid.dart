@@ -8,12 +8,13 @@ import 'package:stundenplan/widgets/calender_info_diaglog.dart';
 import 'package:stundenplan/widgets/info_dialog.dart';
 
 class WeekdayGridObject extends StatelessWidget {
-  WeekdayGridObject(
-      {/*required*/ required this.weekday,
-      /*required*/ required this.x,
-      /*required*/ required this.needsLeftBorder,
-      /*required*/ required this.needsRightBorder,
-      /*required*/ required this.sharedState});
+  WeekdayGridObject({
+    /*required*/ required this.weekday,
+    /*required*/ required this.x,
+    /*required*/ required this.needsLeftBorder,
+    /*required*/ required this.needsRightBorder,
+    /*required*/ required this.sharedState,
+  });
 
   final String weekday;
   final int x;
@@ -35,32 +36,39 @@ class WeekdayGridObject extends StatelessWidget {
         child: InkWell(
           onTap: () {
             if (dataPoints.isNotEmpty) {
-              showCalenderInfoDialog(dataPoints, context, sharedState);
+              showCalenderInfoDialog(
+                dataPoints,
+                context,
+                sharedState,
+              );
             }
           },
           child: Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(needsLeftBorder ? 5 : 0),
-                  topRight: Radius.circular(needsRightBorder ? 5 : 0),
-                ),
-                border: Border.all(width: 0.75, color: Colors.black26),
-                color: x == weekdayToday
-                    ? sharedState.theme.textColor
-                    : dataPoints.isNotEmpty
-                        ? sharedState.theme.subjectDropOutColor.withAlpha(150)
-                        : sharedState.theme.textColor.withAlpha(25)),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(needsLeftBorder ? 5 : 0),
+                topRight: Radius.circular(needsRightBorder ? 5 : 0),
+              ),
+              border: Border.all(width: 0.75, color: Colors.black26),
+              color: x == weekdayToday
+                  ? sharedState.theme.textColor
+                  : dataPoints.isNotEmpty
+                      ? sharedState.theme.subjectDropOutColor.withAlpha(150)
+                      : sharedState.theme.textColor.withAlpha(25),
+            ),
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8),
               child: Center(
-                  child: Text(
-                weekday,
-                style: GoogleFonts.poppins(
+                child: Text(
+                  weekday,
+                  style: GoogleFonts.poppins(
                     fontWeight: FontWeight.bold,
                     color: x == weekdayToday
                         ? sharedState.theme.invertedTextColor
-                        : sharedState.theme.textColor),
-              )),
+                        : sharedState.theme.textColor,
+                  ),
+                ),
+              ),
             ),
           ),
         ),
@@ -70,13 +78,14 @@ class WeekdayGridObject extends StatelessWidget {
 }
 
 class ClassGridObject extends StatelessWidget {
-  const ClassGridObject(
-      {required this.content,
-      required this.sharedState,
-      required this.x,
-      required this.y,
-      required this.needsLeftBorder,
-      required this.context});
+  const ClassGridObject({
+    required this.content,
+    required this.sharedState,
+    required this.x,
+    required this.y,
+    required this.needsLeftBorder,
+    required this.context,
+  });
 
   final Content content;
   final SharedState sharedState;
@@ -115,9 +124,10 @@ class ClassGridObject extends StatelessWidget {
                     Text(
                       content.cells[y][x].originalSubject,
                       style: const TextStyle(
-                          color: Colors.transparent,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0),
+                        color: Colors.transparent,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                     ),
                     Text(
                       content.cells[y][x].subject,
@@ -144,7 +154,11 @@ class ClassGridObject extends StatelessWidget {
                 color: Colors.transparent,
                 child: InkWell(
                   onTap: () {
-                    showInfoDialog(content.cells[y][x], context, sharedState);
+                    showInfoDialog(
+                      content.cells[y][x],
+                      context,
+                      sharedState,
+                    );
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -155,12 +169,14 @@ class ClassGridObject extends StatelessWidget {
                           : sharedState.theme.subjectDropOutColor,
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(
-                            (y == sharedState.height - 2 && x == 1) ? 5 : 0),
+                          (y == sharedState.height - 2 && x == 1) ? 5 : 0,
+                        ),
                         bottomRight: Radius.circular(
-                            (y == sharedState.height - 2 &&
-                                    x == Constants.width - 1)
-                                ? 5
-                                : 0),
+                          (y == sharedState.height - 2 &&
+                                  x == Constants.width - 1)
+                              ? 5
+                              : 0,
+                        ),
                       ),
                       border: Border.all(
                         width: 0.5,
@@ -173,32 +189,36 @@ class ClassGridObject extends StatelessWidget {
                               Text(
                                 content.cells[y][x].originalSubject,
                                 style: TextStyle(
-                                    color: sharedState.theme.textColor
-                                        .withAlpha(214),
-                                    decoration: TextDecoration.lineThrough,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.0),
+                                  color: sharedState.theme.textColor
+                                      .withAlpha(214),
+                                  decoration: TextDecoration.lineThrough,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                               ),
                               Text(
                                 content.cells[y][x].subject,
                                 style: TextStyle(
-                                    color: sharedState.theme.textColor),
+                                  color: sharedState.theme.textColor,
+                                ),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                               ),
                               Text(
                                 content.cells[y][x].room,
                                 style: TextStyle(
-                                    color: sharedState.theme.textColor),
+                                  color: sharedState.theme.textColor,
+                                ),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                               ),
                               Text(
                                 content.cells[y][x].teacher,
                                 style: TextStyle(
-                                    color: sharedState.theme.textColor),
+                                  color: sharedState.theme.textColor,
+                                ),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                               ),
@@ -215,22 +235,25 @@ class ClassGridObject extends StatelessWidget {
                               Text(
                                 content.cells[y][x].subject,
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: sharedState.theme.textColor),
+                                  fontWeight: FontWeight.bold,
+                                  color: sharedState.theme.textColor,
+                                ),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                               ),
                               Text(
                                 content.cells[y][x].room,
                                 style: TextStyle(
-                                    color: sharedState.theme.textColor),
+                                  color: sharedState.theme.textColor,
+                                ),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                               ),
                               Text(
                                 content.cells[y][x].teacher,
                                 style: TextStyle(
-                                    color: sharedState.theme.textColor),
+                                  color: sharedState.theme.textColor,
+                                ),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                               ),
@@ -258,7 +281,7 @@ class PlaceholderGridObject extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Text(
         "99:99",
         style: GoogleFonts.poppins(color: Colors.transparent),
@@ -272,7 +295,10 @@ class TimeGridObject extends StatefulWidget {
   @override
   _TimeGridObjectState createState() => _TimeGridObjectState();
 
-  TimeGridObject(this.y, this.sharedState) {
+  TimeGridObject(
+    this.y,
+    this.sharedState,
+  ) {
     // Get start hour and start minute
     final startTime = Constants.startTimes[y - 1].split(":");
     final startHour = int.parse(startTime[0]);
@@ -326,7 +352,7 @@ class _TimeGridObjectState extends State<TimeGridObject> {
           color: isActive ? sharedState.theme.textColor : Colors.transparent,
           borderRadius: BorderRadius.circular(2.0)),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Container(
           decoration: BoxDecoration(
             border: Border(

@@ -9,7 +9,9 @@ import 'package:stundenplan/widgets/buttons.dart';
 class ThemeSelectionPage extends StatefulWidget {
   final SharedState sharedState;
 
-  const ThemeSelectionPage(this.sharedState);
+  const ThemeSelectionPage(
+    this.sharedState,
+  );
 
   @override
   _ClassSelectionPageState createState() => _ClassSelectionPageState();
@@ -36,8 +38,9 @@ class _ClassSelectionPageState extends State<ThemeSelectionPage> {
       onPressed: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) =>
-                CourseInputMethodSelectionPage(widget.sharedState),
+            builder: (context) => CourseInputMethodSelectionPage(
+              widget.sharedState,
+            ),
           ),
         );
       },

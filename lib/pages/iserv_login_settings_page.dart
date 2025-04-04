@@ -15,7 +15,9 @@ import 'package:tuple/tuple.dart';
 class IServLoginSettingsPage extends StatefulWidget {
   final SharedState sharedState;
 
-  const IServLoginSettingsPage(this.sharedState);
+  const IServLoginSettingsPage(
+    this.sharedState,
+  );
 
   @override
   _IServLoginSettingsPageState createState() => _IServLoginSettingsPageState();
@@ -122,8 +124,10 @@ class _IServLoginSettingsPageState extends State<IServLoginSettingsPage> {
       child: SafeArea(
         child: Stack(
           children: [
-            HelpButton("Einstellungen#iserv-login-optionen",
-                sharedState: widget.sharedState),
+            HelpButton(
+              "Einstellungen#iserv-login-optionen",
+              sharedState: widget.sharedState,
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
               child: ListView(
@@ -133,13 +137,14 @@ class _IServLoginSettingsPageState extends State<IServLoginSettingsPage> {
                   Column(
                     children: [
                       Text(
-                          "Gebe deinen IServ Nutzernamen und Passwort ein, wenn du der App erlauben willst auf deine Daten von IServ zuzugreifen.",
-                          style: GoogleFonts.poppins(
-                            color: widget.sharedState.theme.textColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                          ),
-                          textAlign: TextAlign.center),
+                        "Gebe deinen IServ Nutzernamen und Passwort ein, wenn du der App erlauben willst auf deine Daten von IServ zuzugreifen.",
+                        style: GoogleFonts.poppins(
+                          color: widget.sharedState.theme.textColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                       const Divider(height: 15),
                       LabeledTextInput(
                         "Nutzername",

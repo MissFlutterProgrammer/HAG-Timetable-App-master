@@ -13,7 +13,9 @@ import 'package:stundenplan/parsing/iserv_authentication.dart';
 import 'package:stundenplan/parsing/parsing_util.dart';
 import 'package:stundenplan/shared_state.dart';
 
-Future<CalendarData> loadCalendarData(SharedState sharedState) async {
+Future<CalendarData> loadCalendarData(
+  SharedState sharedState,
+) async {
   log("Parsing calendar data", name: "parsing.calendar");
   final calendarData = CalendarData();
   final client = Client();

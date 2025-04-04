@@ -87,7 +87,9 @@ class Theme {
       this.subjectDropOutColor, this.subjectSubstitutionColor);
 
   Color get invertedTextColor {
-    return Theme.invertColor(textColor);
+    return Theme.invertColor(
+      textColor,
+    );
   }
 
   static Color invertColor(Color color) {
@@ -99,7 +101,9 @@ class Theme {
     final jsonThemeData = <String, dynamic>{
       "themeName": themeName,
       "backgroundColor": colorToJsonData(backgroundColor),
-      "textColor": colorToJsonData(textColor),
+      "textColor": colorToJsonData(
+        textColor,
+      ),
       "subjectColor": colorToJsonData(subjectColor),
       "subjectDropOutColor": colorToJsonData(subjectDropOutColor),
       "subjectSubstitutionColor": colorToJsonData(subjectSubstitutionColor)

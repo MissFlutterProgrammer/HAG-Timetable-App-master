@@ -25,7 +25,11 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   // Disable landscape mode for the app
   SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    [
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ],
+  );
   initializeNotifications();
   // Create a SharedPreferences instance; [Used for caching and storing settings]
   SharedPreferences.getInstance().then((prefs) {
@@ -46,7 +50,9 @@ class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 
-  const MyApp(this.sharedState);
+  const MyApp(
+    this.sharedState,
+  );
 
   final SharedState sharedState;
 }
@@ -112,7 +118,9 @@ class _MyAppState extends State<MyApp> {
         setState(() {});
         // Load the calendar data if the timetable data could be loaded.
         if (couldLoad) {
-          sharedState.calendarData = await loadCalendarData(sharedState);
+          sharedState.calendarData = await loadCalendarData(
+            sharedState,
+          );
           sharedState.saveCache();
           setState(() {});
         }
@@ -171,7 +179,10 @@ class _MyAppState extends State<MyApp> {
               color: sharedState.theme.textColor,
             ),
             onPressed: () {
-              showSettingsWindow(context, sharedState);
+              showSettingsWindow(
+                context,
+                sharedState,
+              );
             },
           ),
         ],
@@ -181,7 +192,9 @@ class _MyAppState extends State<MyApp> {
         child: SafeArea(
           child: loading
               ? Center(
-                  child: Loader(sharedState),
+                  child: Loader(
+                    sharedState,
+                  ),
                 )
               : !couldLoad
                   ? Padding(
@@ -193,13 +206,12 @@ class _MyAppState extends State<MyApp> {
                             child: Text(
                               "Es konnten keine Daten geladen werden...",
                               style: TextStyle(
-                                  color: sharedState.theme.textColor,
-                                  fontWeight: FontWeight.w700),
+                                color: sharedState.theme.textColor,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                           ),
-                          Container(
-                            height: 10.0,
-                          ),
+                          Container(height: 10),
                           Center(
                             child: Text(
                               "Versuche eine Internetverbindung herzustellen und starte die App neu.",
@@ -240,13 +252,17 @@ class _MyAppState extends State<MyApp> {
                               // Reload timetable data
                               // ignore: prefer_function_declarations_over_variables
                               final VoidFutureCallBack reloadAsync = () async {
-                                await parsePlans(sharedState);
+                                await parsePlans(
+                                  sharedState,
+                                );
                                 sharedState.saveCache();
                                 _refreshController.refreshCompleted();
                               };
                               reloadAsync().then((_) => setState(() {}));
                               // Reload calendar data
-                              loadCalendarData(sharedState).then(
+                              loadCalendarData(
+                                sharedState,
+                              ).then(
                                 (value) => setState(() {
                                   sharedState.calendarData = value;
                                   sharedState.saveCache();
@@ -274,8 +290,9 @@ class _MyAppState extends State<MyApp> {
                               right: 8,
                             ),
                             child: TimeTable(
-                                sharedState: sharedState,
-                                content: sharedState.content),
+                              sharedState: sharedState,
+                              content: sharedState.content,
+                            ),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8),
@@ -284,9 +301,10 @@ class _MyAppState extends State<MyApp> {
                                 Text(
                                   "Zuletzt aktualisiert: ",
                                   style: GoogleFonts.poppins(
-                                      color: sharedState.theme.textColor
-                                          .withAlpha(200),
-                                      fontWeight: FontWeight.w300),
+                                    color: sharedState.theme.textColor
+                                        .withAlpha(200),
+                                    fontWeight: FontWeight.w300,
+                                  ),
                                 ),
                                 Text(
                                   time_ago.format(
@@ -294,9 +312,10 @@ class _MyAppState extends State<MyApp> {
                                     locale: "de",
                                   ),
                                   style: GoogleFonts.poppins(
-                                      color: sharedState.theme.textColor
-                                          .withAlpha(200),
-                                      fontWeight: FontWeight.w200),
+                                    color: sharedState.theme.textColor
+                                        .withAlpha(200),
+                                    fontWeight: FontWeight.w200,
+                                  ),
                                 ),
                               ],
                             ),

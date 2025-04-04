@@ -8,7 +8,9 @@ import 'package:stundenplan/widgets/course_select_list.dart';
 class CourseSelectionPage extends StatefulWidget {
   final SharedState sharedState;
 
-  const CourseSelectionPage(this.sharedState);
+  const CourseSelectionPage(
+    this.sharedState,
+  );
 
   @override
   _ClassSelectionPageState createState() => _ClassSelectionPageState();
@@ -44,7 +46,9 @@ class _ClassSelectionPageState extends State<CourseSelectionPage> {
         saveDataToProfile();
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => MyApp(widget.sharedState),
+            builder: (context) => MyApp(
+              widget.sharedState,
+            ),
           ),
         );
       },

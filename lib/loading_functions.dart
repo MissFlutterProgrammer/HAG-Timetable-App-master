@@ -20,7 +20,9 @@ Future<void> openSetupPageAndCheckForFile(
     if (await checkForFilePermissionsAndShowDialog(context)) {
       await tryMoveFile(
           Constants.saveDataFileLocationOld, Constants.saveDataFileLocation);
-      await loadProfileManagerAndThemeFromFile(sharedState);
+      await loadProfileManagerAndThemeFromFile(
+        sharedState,
+      );
     }
   } catch (e) {
     log("Error in openSetupPageAndCheckForFile", name: "setup", error: e);
@@ -30,7 +32,9 @@ Future<void> openSetupPageAndCheckForFile(
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ClassSelectionPage(sharedState)),
+            builder: (context) => ClassSelectionPage(
+                  sharedState,
+                )),
       );
     });
   }
@@ -67,7 +71,9 @@ Future<bool> checkForFilePermissionsAndShowDialog(BuildContext context) async {
   return true;
 }
 
-Future<void> loadProfileManagerAndThemeFromFile(SharedState sharedState) async {
+Future<void> loadProfileManagerAndThemeFromFile(
+  SharedState sharedState,
+) async {
   try {
     final String data = await loadFromFile(Constants.saveDataFileLocation);
     // Parse the json
@@ -101,11 +107,15 @@ Future<bool> checkForUpdateAndLoadTimetable(UpdateNotifier updateNotifier,
     if (!Platform.isWindows) {
       await updateNotifier.init();
       await updateNotifier.checkForNewestVersionAndShowDialog(
-          context, sharedState);
+        context,
+        sharedState,
+      );
     }
 
     // Parse the Timetable
-    await parsePlans(sharedState);
+    await parsePlans(
+      sharedState,
+    );
     log("State was set to: ${sharedState.content}", name: "state");
 
     // Cache the Timetable

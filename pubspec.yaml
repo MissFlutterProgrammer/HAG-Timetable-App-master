@@ -28,7 +28,7 @@ dependencies:
   url_launcher: ^6.2.1
   yaml: ^3.1.2
   icalendar_parser: ^2.1.0
-  image_picker: ^1.0.4
+  image_picker: ^1.1.2
   cookie_jar: ^4.0.8
   flutter_secure_storage: ^9.0.0
   rrule: ^0.2.14
@@ -48,7 +48,7 @@ flutter_icons:
   adaptive_icon_background : "adaptive_icon_background.png"
 
 dev_dependencies:
-  lint: ^2.0.1
+  lint: ^2.8.0
   test: ^1.21.4
 
 flutter:

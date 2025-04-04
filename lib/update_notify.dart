@@ -62,7 +62,9 @@ class UpdateNotifier {
   }
 
   Future<void> checkForNewestVersionAndShowDialog(
-      BuildContext context, SharedState sharedState) async {
+    BuildContext context,
+    SharedState sharedState,
+  ) async {
     final newestVersion = await getNewestVersion();
     if (currentVersion.isOtherVersionGreater(newestVersion)) {
       await showNewVersionDialog(

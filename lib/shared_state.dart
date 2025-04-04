@@ -223,6 +223,9 @@ class SharedState {
     final timeStampString = DateFormat("dd_MM_yyy-HH_mm_ss").format(now);
     final saveFilePath =
         "${Constants.saveSnapshotFileLocation}/stundenplan_snapshot_$timeStampString.snapshot";
-    await saveToFileArchived(jsonEncode(snapshotData), saveFilePath);
+    await saveToFileArchived(
+      jsonEncode(snapshotData),
+      saveFilePath,
+    );
   }
 }

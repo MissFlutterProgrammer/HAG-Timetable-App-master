@@ -24,10 +24,16 @@ Future<bool> isInternetAvailable(Connectivity connectivity) async {
       result == ConnectivityResult.wifi;
 }
 
-void showSettingsWindow(BuildContext context, SharedState sharedState) {
+void showSettingsWindow(
+  BuildContext context,
+  SharedState sharedState,
+) {
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => SetupPage(sharedState)),
+    MaterialPageRoute(
+        builder: (context) => SetupPage(
+              sharedState,
+            )),
   );
 }
 

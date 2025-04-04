@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:stundenplan/shared_state.dart';
 
 class Loader extends StatelessWidget {
-  const Loader(this.sharedState);
+  const Loader(
+    this.sharedState,
+  );
 
   final SharedState sharedState;
 
@@ -15,7 +17,7 @@ class Loader extends StatelessWidget {
         valueColor:
             AlwaysStoppedAnimation<Color>(sharedState.theme.subjectColor),
         backgroundColor: Colors.transparent,
-        strokeWidth: 6.0,
+        strokeWidth: 6,
       ),
     );
   }

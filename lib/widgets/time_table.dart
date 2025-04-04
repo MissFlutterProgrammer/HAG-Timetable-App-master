@@ -26,14 +26,18 @@ class TimeTable extends StatelessWidget {
                   if (y == 0)
                     PlaceholderGridObject()
                   else
-                    TimeGridObject(y, sharedState)
+                    TimeGridObject(
+                      y,
+                      sharedState,
+                    )
                 else if (y == 0)
                   WeekdayGridObject(
-                      weekday: Constants.weekDays[x],
-                      x: x,
-                      needsLeftBorder: x == 1,
-                      needsRightBorder: x == Constants.width - 1,
-                      sharedState: sharedState)
+                    weekday: Constants.weekDays[x],
+                    x: x,
+                    needsLeftBorder: x == 1,
+                    needsRightBorder: x == Constants.width - 1,
+                    sharedState: sharedState,
+                  )
                 else
                   ClassGridObject(
                       content: content,

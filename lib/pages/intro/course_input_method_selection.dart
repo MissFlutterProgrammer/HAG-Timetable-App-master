@@ -11,7 +11,9 @@ import 'package:stundenplan/widgets/base_intro_screen.dart';
 class CourseInputMethodSelectionPage extends StatefulWidget {
   final SharedState sharedState;
 
-  const CourseInputMethodSelectionPage(this.sharedState);
+  const CourseInputMethodSelectionPage(
+    this.sharedState,
+  );
 
   @override
   _CourseInputMethodSelectionPageState createState() =>
@@ -37,7 +39,9 @@ class _CourseInputMethodSelectionPageState
       onPressed: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => CourseSelectionPage(widget.sharedState),
+            builder: (context) => CourseSelectionPage(
+              widget.sharedState,
+            ),
           ),
         );
       },
@@ -55,7 +59,9 @@ class _CourseInputMethodSelectionPageState
               height: buttonHeight,
               decoration: BoxDecoration(
                 color: Colors.transparent,
-                border: Border.all(color: widget.sharedState.theme.textColor),
+                border: Border.all(
+                  color: widget.sharedState.theme.textColor,
+                ),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: ElevatedButton(
@@ -69,8 +75,9 @@ class _CourseInputMethodSelectionPageState
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) =>
-                          CourseListImportPage(widget.sharedState),
+                      builder: (context) => CourseListImportPage(
+                        widget.sharedState,
+                      ),
                     ),
                   );
                 },
@@ -104,7 +111,9 @@ class _CourseInputMethodSelectionPageState
               height: buttonHeight,
               decoration: BoxDecoration(
                 color: Colors.transparent,
-                border: Border.all(color: widget.sharedState.theme.textColor),
+                border: Border.all(
+                  color: widget.sharedState.theme.textColor,
+                ),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: ElevatedButton(
@@ -118,8 +127,9 @@ class _CourseInputMethodSelectionPageState
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) =>
-                          CourseSelectionPage(widget.sharedState),
+                      builder: (context) => CourseSelectionPage(
+                        widget.sharedState,
+                      ),
                     ),
                   );
                 },

@@ -16,7 +16,9 @@ import 'package:stundenplan/widgets/course_select_list.dart';
 class CourseListImportPage extends StatefulWidget {
   final SharedState sharedState;
 
-  const CourseListImportPage(this.sharedState);
+  const CourseListImportPage(
+    this.sharedState,
+  );
 
   @override
   _CourseListImportPageState createState() => _CourseListImportPageState();
@@ -152,7 +154,9 @@ class _CourseListImportPageState extends State<CourseListImportPage> {
         saveDataToProfile();
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => MyApp(widget.sharedState),
+            builder: (context) => MyApp(
+              widget.sharedState,
+            ),
           ),
         );
       },

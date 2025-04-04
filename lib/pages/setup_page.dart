@@ -20,7 +20,9 @@ class SetupPage extends StatefulWidget {
   @override
   _SetupPageState createState() => _SetupPageState();
 
-  SetupPage(this.sharedState);
+  SetupPage(
+    this.sharedState,
+  );
 
   SharedState sharedState;
 }
@@ -71,7 +73,9 @@ class _SetupPageState extends State<SetupPage> {
       MaterialPageRoute(
         builder: (context) => WillPopScope(
           onWillPop: () async => false,
-          child: MyApp(sharedState),
+          child: MyApp(
+            sharedState,
+          ),
         ),
       ),
     );
@@ -364,8 +368,9 @@ class _SetupPageState extends State<SetupPage> {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    CalendarSettingsPage(widget.sharedState),
+                                builder: (context) => CalendarSettingsPage(
+                                  widget.sharedState,
+                                ),
                               ),
                             );
                           },

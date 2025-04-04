@@ -292,7 +292,9 @@ void callbackDispatcher() {
     sharedState.content.lastUpdated = DateTime(0);
     final contentBeforeJson = sharedState.content.toJsonData();
     // Parse the substitution and timetable
-    await parsePlans(sharedState);
+    await parsePlans(
+      sharedState,
+    );
     if (sharedState.content.isEmpty(onePerDay: true)) {
       fileLog("Error: Empty content detected", name: "init");
       return false; // Back off and try again
