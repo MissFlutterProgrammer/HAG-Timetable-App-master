@@ -147,57 +147,63 @@ class _CourseListImportPageState extends State<CourseListImportPage> {
   @override
   Widget build(BuildContext context) {
     return BaseIntroScreen(
-        sharedState: widget.sharedState,
-        onPressed: () {
-          saveDataToProfile();
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => MyApp(widget.sharedState)));
-        },
-        subtitle: subtitle,
-        title: "Scanen",
-        noButton: courses.isEmpty,
-        helpPage: "Set-Up#automatisch",
-        child: Column(
-          children: [
-            ElevatedButton(
-              style: ButtonStyle(
-                padding: WidgetStateProperty.all(const EdgeInsets.all(10.0)),
-                backgroundColor: WidgetStateProperty.all<Color>(
-                    widget.sharedState.theme.subjectColor),
-                shape: WidgetStateProperty.all<OutlinedBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
+      sharedState: widget.sharedState,
+      onPressed: () {
+        saveDataToProfile();
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => MyApp(widget.sharedState),
+          ),
+        );
+      },
+      subtitle: subtitle,
+      title: "Scanen",
+      noButton: courses.isEmpty,
+      helpPage: "Set-Up#automatisch",
+      child: Column(
+        children: [
+          ElevatedButton(
+            style: ButtonStyle(
+              padding: WidgetStateProperty.all(const EdgeInsets.all(10)),
+              backgroundColor: WidgetStateProperty.all<Color>(
+                  widget.sharedState.theme.subjectColor),
+              shape: WidgetStateProperty.all<OutlinedBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              onPressed: !loading ? scan : () {},
-              child: loading
-                  ? CircularProgressIndicator(
-                      color: widget.sharedState.theme.textColor,
-                    )
-                  : Text(
-                      courses.isNotEmpty ? "Neues Foto Machen" : "Foto Machen",
-                      style: GoogleFonts.poppins(
-                          color: widget.sharedState.theme.textColor,
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.bold)),
             ),
-            const SizedBox(height: 15),
-            if (courses.isNotEmpty)
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.42,
-                child: ListView(
-                  children: [
-                    CourseSelectList(
-                      widget.sharedState,
-                      courses,
+            onPressed: !loading ? scan : () {},
+            child: loading
+                ? CircularProgressIndicator(
+                    color: widget.sharedState.theme.textColor,
+                  )
+                : Text(
+                    courses.isNotEmpty ? "Neues Foto Machen" : "Foto Machen",
+                    style: GoogleFonts.poppins(
+                      color: widget.sharedState.theme.textColor,
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ],
-                ),
-              )
-            else
-              Container(),
-          ],
-        ));
+                  ),
+          ),
+          const SizedBox(height: 15),
+          if (courses.isNotEmpty)
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.42,
+              child: ListView(
+                children: [
+                  CourseSelectList(
+                    widget.sharedState,
+                    courses,
+                  ),
+                ],
+              ),
+            )
+          else
+            Container(),
+        ],
+      ),
+    );
   }
 }

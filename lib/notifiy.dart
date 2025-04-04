@@ -34,14 +34,14 @@ void fileLog(String msg, {String? name}) {
   String logData = "";
   if (logFile.existsSync()) {
     final logDataRaw = logFile.readAsBytesSync();
-    logData = utf8.decode(GZipDecoder().decodeBytes(logDataRaw.toList()));
+    logData = utf8.decode(const GZipDecoder().decodeBytes(logDataRaw.toList()));
   }
   final encodedMsg = Uri.encodeComponent(msg);
   final dateString = DateFormat("dd-MM-yyy HH:mm:ss").format(DateTime.now());
   logData += "[$dateString | $name]: $encodedMsg\r\n";
 
-  final newLogDataRaw = GZipEncoder().encode(utf8.encode(logData));
-  logFile.writeAsBytesSync(newLogDataRaw!, flush: true);
+  final newLogDataRaw = const GZipEncoder().encode(utf8.encode(logData));
+  logFile.writeAsBytesSync(newLogDataRaw, flush: true);
 }
 
 Future<FlutterLocalNotificationsPlugin>

@@ -31,9 +31,11 @@ class _IServLoginSettingsPageState extends State<IServLoginSettingsPage> {
   @override
   void initState() {
     super.initState();
-    areIServCredentialsSet().then((value) => setState(() {
-          areCredentialsAvailable = value;
-        }));
+    areIServCredentialsSet().then(
+      (value) => setState(() {
+        areCredentialsAvailable = value;
+      }),
+    );
   }
 
   Future<void> saveIServCredentialsAndGoBack() async {
@@ -123,8 +125,7 @@ class _IServLoginSettingsPageState extends State<IServLoginSettingsPage> {
             HelpButton("Einstellungen#iserv-login-optionen",
                 sharedState: widget.sharedState),
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 50.0, horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
               child: ListView(
                 shrinkWrap: true,
                 physics: const BouncingScrollPhysics(),
@@ -134,18 +135,28 @@ class _IServLoginSettingsPageState extends State<IServLoginSettingsPage> {
                       Text(
                           "Gebe deinen IServ Nutzernamen und Passwort ein, wenn du der App erlauben willst auf deine Daten von IServ zuzugreifen.",
                           style: GoogleFonts.poppins(
-                              color: widget.sharedState.theme.textColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15),
+                            color: widget.sharedState.theme.textColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
                           textAlign: TextAlign.center),
                       const Divider(height: 15),
-                      LabeledTextInput("Nutzername", widget.sharedState,
-                          credentialsOutputList, 0,
-                          incorrect: incorrectUsername),
+                      LabeledTextInput(
+                        "Nutzername",
+                        widget.sharedState,
+                        credentialsOutputList,
+                        0,
+                        incorrect: incorrectUsername,
+                      ),
                       const Divider(height: 15),
-                      LabeledTextInput("Passwort", widget.sharedState,
-                          credentialsOutputList, 1,
-                          obscureText: true, incorrect: incorrectPassword),
+                      LabeledTextInput(
+                        "Passwort",
+                        widget.sharedState,
+                        credentialsOutputList,
+                        1,
+                        obscureText: true,
+                        incorrect: incorrectPassword,
+                      ),
                       const Divider(height: 15),
                       if (areCredentialsAvailable)
                         Column(

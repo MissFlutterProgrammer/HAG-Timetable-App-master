@@ -186,7 +186,9 @@ class _ColorPickerButtonState extends State<ColorPickerButton> {
                   return AlertDialog(
                     title: Text(
                       'Farbe für "${widget.text}"',
-                      style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     content: SingleChildScrollView(
                       child: ColorPicker(

@@ -1,3 +1,5 @@
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
@@ -92,11 +94,11 @@ Future<void> saveToFileArchived(String data, String path) async {
   // Check if we have the storage Permission
   if (await requestStorage().isDenied) return;
   // Compress data with gzip
-  final compressedData = GZipEncoder().encode(utf8.encode(data));
+  final compressedData = const GZipEncoder().encode(utf8.encode(data));
   // Save to file: same code as `loadFromFile`
   try {
     final File saveFile = await File(path).create(recursive: true);
-    await saveFile.writeAsBytes(compressedData!);
+    await saveFile.writeAsBytes(compressedData);
   } catch (e) {
     log("Error while writing archive to file at '$path'",
         name: "file", error: e);

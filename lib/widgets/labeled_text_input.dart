@@ -44,9 +44,10 @@ class _LabeledTextInputState extends State<LabeledTextInput> {
         Text(
           widget.labelText,
           style: GoogleFonts.poppins(
-              color: widget.sharedState.theme.textColor,
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold),
+            color: widget.sharedState.theme.textColor,
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         Container(
           decoration: BoxDecoration(

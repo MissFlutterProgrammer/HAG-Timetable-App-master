@@ -27,8 +27,11 @@ class _ClassSelectionPageState extends State<ClassSelectionPage> {
         onPressed: () {
           if (saveClassSelection()) {
             widget.sharedState.saveState();
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => ThemeSelectionPage(widget.sharedState)));
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => ThemeSelectionPage(widget.sharedState),
+              ),
+            );
           }
         },
         subtitle: "In welcher Klasse bist du?",

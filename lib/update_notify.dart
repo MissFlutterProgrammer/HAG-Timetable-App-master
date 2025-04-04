@@ -81,15 +81,27 @@ class UpdateNotifier {
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: sharedState.theme.backgroundColor,
-          title: Text('Neue Version verfügbar',
-              style: TextStyle(color: sharedState.theme.textColor)),
+          title: Text(
+            'Neue Version verfügbar',
+            style: TextStyle(
+              color: sharedState.theme.textColor,
+            ),
+          ),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Es ist eine neue Version verfügbar: $newVersion',
-                    style: TextStyle(color: sharedState.theme.textColor)),
-                Text('(Aktuelle Version: $currentVersion)',
-                    style: TextStyle(color: sharedState.theme.textColor)),
+                Text(
+                  'Es ist eine neue Version verfügbar: $newVersion',
+                  style: TextStyle(
+                    color: sharedState.theme.textColor,
+                  ),
+                ),
+                Text(
+                  '(Aktuelle Version: $currentVersion)',
+                  style: TextStyle(
+                    color: sharedState.theme.textColor,
+                  ),
+                ),
               ],
             ),
           ),
@@ -103,8 +115,12 @@ class UpdateNotifier {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Ok',
-                  style: TextStyle(color: sharedState.theme.textColor)),
+              child: Text(
+                'Ok',
+                style: TextStyle(
+                  color: sharedState.theme.textColor,
+                ),
+              ),
             ),
             ElevatedButton(
               style: ButtonStyle(
@@ -121,8 +137,12 @@ class UpdateNotifier {
                 }
                 Navigator.of(context).pop();
               },
-              child: Text('Herunterladen',
-                  style: TextStyle(color: sharedState.theme.textColor)),
+              child: Text(
+                'Herunterladen',
+                style: TextStyle(
+                  color: sharedState.theme.textColor,
+                ),
+              ),
             )
           ],
         );

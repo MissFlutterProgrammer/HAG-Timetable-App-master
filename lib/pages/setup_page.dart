@@ -143,28 +143,31 @@ class _SetupPageState extends State<SetupPage> {
           children: [
             Stack(
               children: [
-                HelpButton("Einstellungen", sharedState: sharedState),
+                HelpButton(
+                  "Einstellungen",
+                  sharedState: sharedState,
+                ),
                 Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
+                      padding: const EdgeInsets.only(top: 8),
                       child: Text(
                         "Profil",
                         style: GoogleFonts.poppins(
                             color: sharedState.theme.textColor,
                             fontWeight: FontWeight.bold,
-                            fontSize: 26.0),
+                            fontSize: 26),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(12.0),
+                      padding: const EdgeInsets.all(12),
                       child: Container(
                         decoration: BoxDecoration(
                           color: sharedState.theme.textColor.withAlpha(200),
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
                           child: DropdownButton<String>(
                             value: profileName,
                             icon: const Icon(Icons.keyboard_arrow_down),
@@ -172,7 +175,8 @@ class _SetupPageState extends State<SetupPage> {
                             dropdownColor:
                                 sharedState.theme.textColor.withAlpha(255),
                             style: TextStyle(
-                                color: sharedState.theme.invertedTextColor),
+                              color: sharedState.theme.invertedTextColor,
+                            ),
                             underline: Container(),
                             onChanged: (String? profileName) {
                               setProfile(profileName!);
@@ -183,10 +187,10 @@ class _SetupPageState extends State<SetupPage> {
                               return DropdownMenuItem<String>(
                                 value: profileName,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(right: 16.0),
+                                  padding: const EdgeInsets.only(right: 16),
                                   child: Text(
                                     profileName,
-                                    style: GoogleFonts.poppins(fontSize: 16.0),
+                                    style: GoogleFonts.poppins(fontSize: 16),
                                   ),
                                 ),
                               );
@@ -199,13 +203,13 @@ class _SetupPageState extends State<SetupPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8),
                           child: MaterialButton(
                             onPressed: () {
                               addProfile();
                             },
                             color: sharedState.theme.textColor,
-                            padding: const EdgeInsets.all(15.0),
+                            padding: const EdgeInsets.all(15),
                             shape: const CircleBorder(),
                             child: Icon(
                               Icons.add,
@@ -215,13 +219,13 @@ class _SetupPageState extends State<SetupPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8),
                           child: MaterialButton(
                             onPressed: () {
                               removeProfile();
                             },
                             color: sharedState.theme.textColor,
-                            padding: const EdgeInsets.all(15.0),
+                            padding: const EdgeInsets.all(15),
                             shape: const CircleBorder(),
                             child: Icon(
                               Icons.remove,
@@ -234,20 +238,21 @@ class _SetupPageState extends State<SetupPage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 5.0, vertical: 4.0),
+                          horizontal: 5, vertical: 4),
                       child: Divider(
-                        thickness: 2.0,
+                        thickness: 2,
                         color: sharedState.theme.textColor.withAlpha(200),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
+                      padding: const EdgeInsets.only(top: 8),
                       child: Text(
                         "Klasse",
                         style: GoogleFonts.poppins(
-                            color: sharedState.theme.textColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 26.0),
+                          color: sharedState.theme.textColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 26,
+                        ),
                       ),
                     ),
                     ClassSelect(
@@ -260,24 +265,25 @@ class _SetupPageState extends State<SetupPage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 5.0, vertical: 4.0),
+                          horizontal: 5, vertical: 4),
                       child: Divider(
-                        thickness: 2.0,
+                        thickness: 2,
                         color: sharedState.theme.textColor.withAlpha(200),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
+                      padding: const EdgeInsets.only(bottom: 8),
                       child: Text(
                         "Kurse",
                         style: GoogleFonts.poppins(
-                            color: sharedState.theme.textColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 26.0),
+                          color: sharedState.theme.textColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 26,
+                        ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8),
                       child: CourseAutoCompleteAddInput(
                           sharedState: sharedState,
                           onAdd: (courseName) {
@@ -291,59 +297,62 @@ class _SetupPageState extends State<SetupPage> {
                       courses,
                     ),
                     Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Expanded(
-                              child: Center(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Benachrichtigungen senden",
-                                      style: GoogleFonts.poppins(
-                                          color: sharedState.theme.textColor,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 16.0),
+                      padding: const EdgeInsets.all(8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: Center(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Benachrichtigungen senden",
+                                    style: GoogleFonts.poppins(
+                                      color: sharedState.theme.textColor,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 16,
                                     ),
-                                    Text(
-                                      "(Experimentell)",
-                                      textAlign: TextAlign.start,
-                                      style: GoogleFonts.poppins(
-                                          color: sharedState.theme.textColor,
-                                          fontWeight: FontWeight.w200,
-                                          fontSize: 10.0),
+                                  ),
+                                  Text(
+                                    "(Experimentell)",
+                                    textAlign: TextAlign.start,
+                                    style: GoogleFonts.poppins(
+                                      color: sharedState.theme.textColor,
+                                      fontWeight: FontWeight.w200,
+                                      fontSize: 10,
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
-                            Switch(
-                                splashRadius: 0,
-                                value: sendNotifications,
-                                inactiveTrackColor:
-                                    sharedState.theme.subjectSubstitutionColor,
-                                activeColor: sharedState.theme.subjectColor,
-                                thumbColor:
-                                    MaterialStateProperty.resolveWith((states) {
-                                  if (states.contains(MaterialState.selected)) {
-                                    return sharedState.theme.subjectColor;
-                                  }
-                                  return sharedState.theme.textColor;
-                                }),
-                                onChanged: (bool value) {
-                                  setState(() {
-                                    sendNotifications = value;
-                                  });
-                                }),
-                          ],
-                        )),
+                          ),
+                          Switch(
+                              splashRadius: 0,
+                              value: sendNotifications,
+                              inactiveTrackColor:
+                                  sharedState.theme.subjectSubstitutionColor,
+                              activeColor: sharedState.theme.subjectColor,
+                              thumbColor:
+                                  MaterialStateProperty.resolveWith((states) {
+                                if (states.contains(MaterialState.selected)) {
+                                  return sharedState.theme.subjectColor;
+                                }
+                                return sharedState.theme.textColor;
+                              }),
+                              onChanged: (bool value) {
+                                setState(() {
+                                  sendNotifications = value;
+                                });
+                              }),
+                        ],
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 5.0, vertical: 4.0),
+                          horizontal: 5, vertical: 4),
                       child: Divider(
-                        thickness: 2.0,
+                        thickness: 2,
                         color: sharedState.theme.textColor.withAlpha(200),
                       ),
                     ),
@@ -353,9 +362,12 @@ class _SetupPageState extends State<SetupPage> {
                         StandardButton(
                           text: "Kalender Optionen",
                           onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
                                 builder: (context) =>
-                                    CalendarSettingsPage(widget.sharedState)));
+                                    CalendarSettingsPage(widget.sharedState),
+                              ),
+                            );
                           },
                           sharedState: sharedState,
                           color: sharedState.theme.subjectSubstitutionColor
@@ -364,35 +376,41 @@ class _SetupPageState extends State<SetupPage> {
                           size: 0.5,
                         ),
                         StandardButton(
-                            text: "IServ Login Optionen",
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => IServLoginSettingsPage(
-                                      widget.sharedState)));
-                            },
-                            sharedState: sharedState,
-                            color: sharedState.theme.subjectDropOutColor
-                                .withAlpha(150),
-                            fontSize: 12,
-                            size: 0.5)
+                          text: "IServ Login Optionen",
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => IServLoginSettingsPage(
+                                  widget.sharedState,
+                                ),
+                              ),
+                            );
+                          },
+                          sharedState: sharedState,
+                          color: sharedState.theme.subjectDropOutColor
+                              .withAlpha(150),
+                          fontSize: 12,
+                          size: 0.5,
+                        )
                       ],
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 5.0, vertical: 4.0),
+                          horizontal: 5, vertical: 4),
                       child: Divider(
-                        thickness: 2.0,
+                        thickness: 2,
                         color: sharedState.theme.textColor.withAlpha(200),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 12.0),
+                      padding: const EdgeInsets.only(bottom: 12),
                       child: Text(
                         "Theme",
                         style: GoogleFonts.poppins(
-                            color: sharedState.theme.textColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 26.0),
+                          color: sharedState.theme.textColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 26,
+                        ),
                       ),
                     ),
                     Container(
@@ -401,13 +419,14 @@ class _SetupPageState extends State<SetupPage> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: DropdownButton<String>(
                           value: themeName,
                           icon: const Icon(Icons.keyboard_arrow_down),
                           elevation: 16,
                           style: TextStyle(
-                              color: sharedState.theme.invertedTextColor),
+                            color: sharedState.theme.invertedTextColor,
+                          ),
                           underline: Container(),
                           dropdownColor:
                               sharedState.theme.textColor.withAlpha(255),
@@ -422,10 +441,10 @@ class _SetupPageState extends State<SetupPage> {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Padding(
-                                padding: const EdgeInsets.only(right: 16.0),
+                                padding: const EdgeInsets.only(right: 16),
                                 child: Text(
                                   value,
-                                  style: GoogleFonts.poppins(fontSize: 16.0),
+                                  style: GoogleFonts.poppins(fontSize: 16),
                                 ),
                               ),
                             );
@@ -435,10 +454,11 @@ class _SetupPageState extends State<SetupPage> {
                     ),
                     if (themeName == "Eigenes")
                       Padding(
-                          padding: const EdgeInsets.only(
-                              bottom: 12.0, top: 15.0, left: 90, right: 90),
-                          child:
-                              Column(mainAxisSize: MainAxisSize.min, children: [
+                        padding: const EdgeInsets.only(
+                            bottom: 12, top: 15, left: 90, right: 90),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
                             ColorPickerButton(
                               bgColor: widget.sharedState.theme.backgroundColor,
                               textColor: widget.sharedState.theme.textColor,
@@ -446,8 +466,8 @@ class _SetupPageState extends State<SetupPage> {
                               theme: widget.sharedState.theme,
                               borderColor: widget.sharedState.theme.textColor
                                   .withAlpha(150),
-                              padding: 6.0,
-                              fontSize: 16.0,
+                              padding: 6,
+                              fontSize: 16,
                               onPicked: (color) {
                                 setState(() {
                                   widget.sharedState.theme.backgroundColor =
@@ -461,8 +481,8 @@ class _SetupPageState extends State<SetupPage> {
                                   widget.sharedState.theme.backgroundColor,
                               text: "Text",
                               theme: widget.sharedState.theme,
-                              padding: 6.0,
-                              fontSize: 16.0,
+                              padding: 6,
+                              fontSize: 16,
                               onPicked: (color) {
                                 setState(() {
                                   widget.sharedState.theme.textColor = color;
@@ -474,8 +494,8 @@ class _SetupPageState extends State<SetupPage> {
                               textColor: widget.sharedState.theme.textColor,
                               text: "Fach",
                               theme: widget.sharedState.theme,
-                              padding: 6.0,
-                              fontSize: 16.0,
+                              padding: 6,
+                              fontSize: 16,
                               onPicked: (color) {
                                 setState(() {
                                   widget.sharedState.theme.subjectColor = color;
@@ -488,8 +508,8 @@ class _SetupPageState extends State<SetupPage> {
                               textColor: widget.sharedState.theme.textColor,
                               text: "Fach ausfall",
                               theme: widget.sharedState.theme,
-                              padding: 6.0,
-                              fontSize: 16.0,
+                              padding: 6,
+                              fontSize: 16,
                               onPicked: (color) {
                                 setState(() {
                                   widget.sharedState.theme.subjectDropOutColor =
@@ -503,8 +523,8 @@ class _SetupPageState extends State<SetupPage> {
                               textColor: widget.sharedState.theme.textColor,
                               text: "Fach vertretung",
                               theme: widget.sharedState.theme,
-                              padding: 6.0,
-                              fontSize: 16.0,
+                              padding: 6,
+                              fontSize: 16,
                               onPicked: (color) {
                                 setState(() {
                                   widget.sharedState.theme
@@ -512,18 +532,21 @@ class _SetupPageState extends State<SetupPage> {
                                 });
                               },
                             )
-                          ]))
+                          ],
+                        ),
+                      )
                     else
                       Container(),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 12.0, top: 15.0),
+                      padding: const EdgeInsets.only(bottom: 12, top: 15),
                       child: ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
-                              sharedState.theme.subjectColor),
+                            sharedState.theme.subjectColor,
+                          ),
                           shape: MaterialStateProperty.all<OutlinedBorder>(
                             RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
+                              borderRadius: BorderRadius.circular(12),
                             ),
                           ),
                         ),
@@ -531,13 +554,14 @@ class _SetupPageState extends State<SetupPage> {
                           saveDataAndGotToMain();
                         },
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8),
                           child: Text(
                             "Fertig",
                             style: GoogleFonts.poppins(
-                                color: sharedState.theme.textColor,
-                                fontSize: 25.0,
-                                fontWeight: FontWeight.bold),
+                              color: sharedState.theme.textColor,
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
@@ -547,25 +571,26 @@ class _SetupPageState extends State<SetupPage> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 5.0, vertical: 4.0),
+                                horizontal: 5, vertical: 4),
                             child: Divider(
-                              thickness: 2.0,
+                              thickness: 2,
                               color: sharedState.theme.textColor.withAlpha(200),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(bottom: 12.0),
+                            padding: const EdgeInsets.only(bottom: 12),
                             child: Text(
                               "Testing",
                               style: GoogleFonts.poppins(
-                                  color: sharedState.theme.textColor
-                                      .withAlpha(150),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 22.0),
+                                color:
+                                    sharedState.theme.textColor.withAlpha(150),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22,
+                              ),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(bottom: 5.0),
+                            padding: const EdgeInsets.only(bottom: 5),
                             child: StandardButton(
                               sharedState: sharedState,
                               text: "Show intro screen",
@@ -575,14 +600,18 @@ class _SetupPageState extends State<SetupPage> {
                               fontWeight: FontWeight.normal,
                               color: sharedState.theme.subjectDropOutColor,
                               onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
                                     builder: (context) => ClassSelectionPage(
-                                        widget.sharedState)));
+                                      widget.sharedState,
+                                    ),
+                                  ),
+                                );
                               },
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(bottom: 5.0),
+                            padding: const EdgeInsets.only(bottom: 5),
                             child: StandardButton(
                               sharedState: sharedState,
                               text: "Save snapshot",

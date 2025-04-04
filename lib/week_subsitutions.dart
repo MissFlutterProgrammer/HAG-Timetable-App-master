@@ -210,9 +210,13 @@ class WeekSubstitutions extends IntegratedValue {
               }
             }
 
-            newDaySubstitutionsList.sort((a, b) =>
-                int.parse(a.item1["Stunde"] as String)
-                    .compareTo(int.parse(b.item1["Stunde"] as String)));
+            newDaySubstitutionsList.sort(
+              (a, b) => int.parse(a.item1["Stunde"] as String).compareTo(
+                int.parse(
+                  b.item1["Stunde"] as String,
+                ),
+              ),
+            );
 
             for (var i = 1; i < newClassHourEnd + 1; i++) {
               if (!newDaySubstitutionsList.any((substitution) =>

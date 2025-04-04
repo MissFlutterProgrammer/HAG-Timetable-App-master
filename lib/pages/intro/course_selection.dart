@@ -43,7 +43,10 @@ class _ClassSelectionPageState extends State<CourseSelectionPage> {
       onPressed: () {
         saveDataToProfile();
         Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => MyApp(widget.sharedState)));
+          MaterialPageRoute(
+            builder: (context) => MyApp(widget.sharedState),
+          ),
+        );
       },
       subtitle: "Hier kannst du deine gewählten Kurse eintragen. z.B En",
       title: "Kurse",

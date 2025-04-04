@@ -34,9 +34,12 @@ class _ClassSelectionPageState extends State<ThemeSelectionPage> {
     return BaseIntroScreen(
       sharedState: widget.sharedState,
       onPressed: () {
-        Navigator.of(context).push(MaterialPageRoute(
+        Navigator.of(context).push(
+          MaterialPageRoute(
             builder: (context) =>
-                CourseInputMethodSelectionPage(widget.sharedState)));
+                CourseInputMethodSelectionPage(widget.sharedState),
+          ),
+        );
       },
       title: "Theme",
       subtitle: "Diese App unterstützt verschiedene Themes.",
@@ -46,7 +49,7 @@ class _ClassSelectionPageState extends State<ThemeSelectionPage> {
           itemCount: themeNames.length,
           itemBuilder: (_, i) {
             return Padding(
-              padding: const EdgeInsets.only(bottom: 12.0),
+              padding: const EdgeInsets.only(bottom: 12),
               child: ThemeButton(
                 onPressed: () {
                   setState(() {
@@ -68,8 +71,9 @@ class _ClassSelectionPageState extends State<ThemeSelectionPage> {
                               title: Text(
                                 "Farbe ändern",
                                 style: GoogleFonts.poppins(
-                                    color: theme.textColor,
-                                    fontWeight: FontWeight.bold),
+                                  color: theme.textColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               backgroundColor:
                                   theme.backgroundColor.withAlpha(255),
@@ -148,9 +152,10 @@ class _ClassSelectionPageState extends State<ThemeSelectionPage> {
                                   child: Text(
                                     "Fertig",
                                     style: GoogleFonts.poppins(
-                                        color: theme.textColor,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20.0),
+                                      color: theme.textColor,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
                                   ),
                                 ),
                               ],

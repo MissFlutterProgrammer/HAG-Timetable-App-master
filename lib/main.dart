@@ -132,7 +132,8 @@ class _MyAppState extends State<MyApp> {
                 return AlertDialog(
                   title: const Text("Die Daten konnten nicht geladen werden"),
                   content: const Text(
-                      "Die App konnte den Stundenplan nicht aus dem Internet oder dem Cache laden."),
+                    "Die App konnte den Stundenplan nicht aus dem Internet oder dem Cache laden.",
+                  ),
                   actions: <Widget>[
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(),
@@ -184,7 +185,7 @@ class _MyAppState extends State<MyApp> {
                 )
               : !couldLoad
                   ? Padding(
-                      padding: const EdgeInsets.all(12.0),
+                      padding: const EdgeInsets.all(12),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -203,28 +204,30 @@ class _MyAppState extends State<MyApp> {
                             child: Text(
                               "Versuche eine Internetverbindung herzustellen und starte die App neu.",
                               style: TextStyle(
-                                  color: sharedState.theme.textColor,
-                                  fontWeight: FontWeight.w300),
+                                color: sharedState.theme.textColor,
+                                fontWeight: FontWeight.w300,
+                              ),
                               textAlign: TextAlign.center,
                             ),
                           ),
                           ElevatedButton(
-                              onPressed: () => {
-                                    setState(() {
-                                      couldLoad = true;
-                                    })
-                                  },
-                              style: ButtonStyle(
-                                backgroundColor: WidgetStateProperty.all<Color>(
-                                  sharedState.theme.subjectColor
-                                      .withOpacity(0.9),
-                                ),
+                            onPressed: () => {
+                              setState(() {
+                                couldLoad = true;
+                              })
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: WidgetStateProperty.all<Color>(
+                                sharedState.theme.subjectColor.withOpacity(0.9),
                               ),
-                              child: Text(
-                                "Leeren/Alten Stundenplan anzeigen",
-                                style: TextStyle(
-                                    color: sharedState.theme.textColor),
-                              ))
+                            ),
+                            child: Text(
+                              "Leeren/Alten Stundenplan anzeigen",
+                              style: TextStyle(
+                                color: sharedState.theme.textColor,
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     )
@@ -243,11 +246,12 @@ class _MyAppState extends State<MyApp> {
                               };
                               reloadAsync().then((_) => setState(() {}));
                               // Reload calendar data
-                              loadCalendarData(sharedState)
-                                  .then((value) => setState(() {
-                                        sharedState.calendarData = value;
-                                        sharedState.saveCache();
-                                      }));
+                              loadCalendarData(sharedState).then(
+                                (value) => setState(() {
+                                  sharedState.calendarData = value;
+                                  sharedState.saveCache();
+                                }),
+                              );
                             } on TimeoutException catch (_) {
                               log("Timeout !", name: "network");
                               _refreshController.refreshFailed();
@@ -265,16 +269,16 @@ class _MyAppState extends State<MyApp> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(
-                              bottom: 8.0,
-                              top: 8.0,
-                              right: 8.0,
+                              bottom: 8,
+                              top: 8,
+                              right: 8,
                             ),
                             child: TimeTable(
                                 sharedState: sharedState,
                                 content: sharedState.content),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(8),
                             child: Row(
                               children: [
                                 Text(
@@ -286,8 +290,9 @@ class _MyAppState extends State<MyApp> {
                                 ),
                                 Text(
                                   time_ago.format(
-                                      sharedState.content.lastUpdated,
-                                      locale: "de"),
+                                    sharedState.content.lastUpdated,
+                                    locale: "de",
+                                  ),
                                   style: GoogleFonts.poppins(
                                       color: sharedState.theme.textColor
                                           .withAlpha(200),

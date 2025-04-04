@@ -68,10 +68,11 @@ Map<String, dynamic> colorToJsonData(Color color) {
 
 Color colorFromJsonData(dynamic jsonColorData) {
   return Color.fromRGBO(
-      int.parse(jsonColorData["r"].toString()),
-      int.parse(jsonColorData["g"].toString()),
-      int.parse(jsonColorData["b"].toString()),
-      double.parse(jsonColorData["o"].toString()));
+    int.parse(jsonColorData["r"].toString()),
+    int.parse(jsonColorData["g"].toString()),
+    int.parse(jsonColorData["b"].toString()),
+    double.parse(jsonColorData["o"].toString()),
+  );
 }
 
 class Theme {

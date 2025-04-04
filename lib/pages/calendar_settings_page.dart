@@ -70,11 +70,12 @@ class _CalendarSettingsPageState extends State<CalendarSettingsPage> {
       child: SafeArea(
         child: Stack(
           children: [
-            HelpButton("Einstellungen#kalender-optionen",
-                sharedState: sharedState),
+            HelpButton(
+              "Einstellungen#kalender-optionen",
+              sharedState: sharedState,
+            ),
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 50.0, horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
               child: ListView(
                 shrinkWrap: true,
                 physics: const BouncingScrollPhysics(),
@@ -82,29 +83,34 @@ class _CalendarSettingsPageState extends State<CalendarSettingsPage> {
                   Column(
                     children: [
                       Text(
-                          "Kopiere die Kalender Links von IServ in die entsprechenden Felder.",
-                          style: GoogleFonts.poppins(
-                              color: sharedState.theme.textColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15),
-                          textAlign: TextAlign.center),
+                        "Kopiere die Kalender Links von IServ in die entsprechenden Felder.",
+                        style: GoogleFonts.poppins(
+                          color: sharedState.theme.textColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                       Text(
-                          "\nKalender Modul ➜ Einstellungen ➜ Kalender verwalten ➜ Plugins ➜ <Pluginname> ➜ Freigabe",
-                          style: GoogleFonts.poppins(
-                              color: sharedState.theme.textColor,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 15),
-                          textAlign: TextAlign.center),
+                        "\nKalender Modul ➜ Einstellungen ➜ Kalender verwalten ➜ Plugins ➜ <Pluginname> ➜ Freigabe",
+                        style: GoogleFonts.poppins(
+                          color: sharedState.theme.textColor,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 15,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                       const Divider(height: 15),
                       for (var i = 0; i < pluginCalendarTypes.length; i++)
                         Column(
                           children: [
                             LabeledTextInput(
-                                "${pluginCalendarTypes[i].name()} Link",
-                                sharedState,
-                                urlList,
-                                i,
-                                fontSize: 15),
+                              "${pluginCalendarTypes[i].name()} Link",
+                              sharedState,
+                              urlList,
+                              i,
+                              fontSize: 15,
+                            ),
                             const Divider(height: 15)
                           ],
                         ),
@@ -123,12 +129,13 @@ class _CalendarSettingsPageState extends State<CalendarSettingsPage> {
                       ),
                       const Divider(height: 30),
                       StandardButton(
-                          text: "Fertig",
-                          onPressed: saveAndGoBack,
-                          sharedState: sharedState,
-                          size: 1.5,
-                          fontSize: 25,
-                          color: sharedState.theme.subjectColor),
+                        text: "Fertig",
+                        onPressed: saveAndGoBack,
+                        sharedState: sharedState,
+                        size: 1.5,
+                        fontSize: 25,
+                        color: sharedState.theme.subjectColor,
+                      ),
                     ],
                   )
                 ],

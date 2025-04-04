@@ -178,11 +178,14 @@ void executeIcsRecurrenceRule(String rRuleString,
         origDataPoint.endDate.hour,
         origDataPoint.endDate.minute,
         origDataPoint.endDate.second);
-    calendarData.addCalendarDataPoint(CalendarDataPoint(
+    calendarData.addCalendarDataPoint(
+      CalendarDataPoint(
         origDataPoint.calendarType,
         origDataPoint.name,
         newStartDate,
-        newEndDate));
+        newEndDate,
+      ),
+    );
   }
 }
 
