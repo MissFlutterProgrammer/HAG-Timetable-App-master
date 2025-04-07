@@ -8,6 +8,6 @@ This app exists because the only current way to view the Timetable without the a
 
 [View Website](https://redstonemedia.github.io/HAG-Timetable-App/)
 
-
 ## Screenshots
+
 <img src="https://user-images.githubusercontent.com/34373974/133384650-2ffb86c5-79d9-45d9-8b6f-ffb8cf1e5206.jpeg" width="300" align="center">
